@@ -111,6 +111,11 @@ class EmployersTable extends Table
             ->allowEmpty('email');
 
         $validator
+            ->scalar('password')
+            ->maxLength('password', 255)
+            ->allowEmpty('password');
+
+        $validator
             ->scalar('phone')
             ->maxLength('phone', 255)
             ->allowEmpty('phone');
