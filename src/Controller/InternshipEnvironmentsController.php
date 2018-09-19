@@ -23,7 +23,12 @@ class InternshipEnvironmentsController extends AppController
             }
 
             if (isset($user['role']) && $user['role'] === 'employer') {
-                return true;
+                $id = $this->request->getParam('pass.0');
+                if (!id) {
+                    return false;
+                }
+                $intershipEnvironment = $this->InternshipEnvironments->findById($id)->first();
+                return $intershipEnvironment->employer_id === $user['id'];
             }
         }
     }
