@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 19 Septembre 2018 à 18:48
+-- Généré le :  Mer 19 Septembre 2018 à 20:33
 -- Version du serveur :  5.6.37
 -- Version de PHP :  7.1.8
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `coordinators` (
   `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `prefix` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -54,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `coordinators` (
 
 CREATE TABLE IF NOT EXISTS `employers` (
   `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `prefix` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -100,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `internship_environments` (
 
 CREATE TABLE IF NOT EXISTS `students` (
   `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `da` int(11) NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -125,7 +128,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` varchar(20) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `created`, `modified`) VALUES
+(3, 'dsdfsasdfgs', '$2y$10$uKXXnPe8mwyfL8r7uAI4RuHG4IgoR8yFkRo/zVLclu4luT.Afu2hm', 'student', '2018-09-19 19:42:22', '2018-09-19 19:42:22'),
+(4, 'testetudiant', '$2y$10$N9GuFq7BkIW/j9wlZGfvDOegDuNxN0PZNJ8qgvvZ2Al.Ecg4WEg3a', 'student', '2018-09-19 19:42:47', '2018-09-19 19:42:47'),
+(5, 'admin', '$2y$10$UF4DDWtohnAVoX4xceP/2eTyFukJ6XEk1mu1tQtbsqPfLrT9t4hVG', 'admin', '2018-09-19 19:53:12', '2018-09-19 19:53:12'),
+(6, 'testemployeur', '$2y$10$JThYRDgzESk6zvG/St3cZeOq6uSn/8PmVq1jNgEWk2rDUaKWJsR6C', 'employer', '2018-09-19 20:14:43', '2018-09-19 20:14:43'),
+(7, 'emp', '$2y$10$QbIN4SJGjj1BwFLtn46zLO92hS/DTLZUQmoKyuc8qs5/CfRb0JzUi', 'employer', '2018-09-19 20:17:15', '2018-09-19 20:17:15');
 
 --
 -- Index pour les tables exportées
@@ -135,13 +149,15 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Index pour la table `coordinators`
 --
 ALTER TABLE `coordinators`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Index pour la table `employers`
 --
 ALTER TABLE `employers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Index pour la table `internship_environments`
@@ -154,7 +170,8 @@ ALTER TABLE `internship_environments`
 -- Index pour la table `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Index pour la table `users`
@@ -190,16 +207,34 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- Contraintes pour les tables exportées
 --
+
+--
+-- Contraintes pour la table `coordinators`
+--
+ALTER TABLE `coordinators`
+  ADD CONSTRAINT `coordinators_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `employers`
+--
+ALTER TABLE `employers`
+  ADD CONSTRAINT `employers_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `internship_environments`
 --
 ALTER TABLE `internship_environments`
   ADD CONSTRAINT `fk_employers_internship_environments` FOREIGN KEY (`employer_id`) REFERENCES `employers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `students`
+--
+ALTER TABLE `students`
+  ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
