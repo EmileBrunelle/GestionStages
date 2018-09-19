@@ -79,6 +79,10 @@
             <td><?= $this->Number->format($employer->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Id User') ?></th>
+            <td><?= $this->Number->format($employer->id_user) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($employer->created) ?></td>
         </tr>

@@ -16,6 +16,7 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id_user') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('da') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
@@ -33,6 +34,7 @@
             <?php foreach ($students as $student): ?>
             <tr>
                 <td><?= $this->Number->format($student->id) ?></td>
+                <td><?= $this->Number->format($student->id_user) ?></td>
                 <td><?= $this->Number->format($student->da) ?></td>
                 <td><?= h($student->last_name) ?></td>
                 <td><?= h($student->first_name) ?></td>

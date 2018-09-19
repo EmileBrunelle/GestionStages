@@ -18,6 +18,7 @@ class EmployersFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
+        'id_user' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'prefix' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'last_name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'first_name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
@@ -34,8 +35,12 @@ class EmployersFixture extends TestFixture
         'fax' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        '_indexes' => [
+            'id_user' => ['type' => 'index', 'columns' => ['id_user'], 'length' => []],
+        ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'employers_ibfk_1' => ['type' => 'foreign', 'columns' => ['id_user'], 'references' => ['users', 'id'], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -54,6 +59,7 @@ class EmployersFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
+                'id_user' => 1,
                 'prefix' => 'Lorem ipsum dolor sit amet',
                 'last_name' => 'Lorem ipsum dolor sit amet',
                 'first_name' => 'Lorem ipsum dolor sit amet',
@@ -68,8 +74,8 @@ class EmployersFixture extends TestFixture
                 'extension' => 'Lorem ipsum dolor sit amet',
                 'cellphone' => 'Lorem ipsum dolor sit amet',
                 'fax' => 'Lorem ipsum dolor sit amet',
-                'created' => '2018-09-19 18:42:58',
-                'modified' => '2018-09-19 18:42:58'
+                'created' => '2018-09-19 20:29:49',
+                'modified' => '2018-09-19 20:29:49'
             ],
         ];
         parent::init();

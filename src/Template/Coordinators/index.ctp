@@ -16,6 +16,7 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id_user') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('prefix') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
@@ -39,6 +40,7 @@
             <?php foreach ($coordinators as $coordinator): ?>
             <tr>
                 <td><?= $this->Number->format($coordinator->id) ?></td>
+                <td><?= $this->Number->format($coordinator->id_user) ?></td>
                 <td><?= h($coordinator->prefix) ?></td>
                 <td><?= h($coordinator->last_name) ?></td>
                 <td><?= h($coordinator->first_name) ?></td>

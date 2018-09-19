@@ -18,6 +18,7 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id_user') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('prefix') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
@@ -41,6 +42,7 @@
             <?php foreach ($employers as $employer): ?>
             <tr>
                 <td><?= $this->Number->format($employer->id) ?></td>
+                <td><?= $this->Number->format($employer->id_user) ?></td>
                 <td><?= h($employer->prefix) ?></td>
                 <td><?= h($employer->last_name) ?></td>
                 <td><?= h($employer->first_name) ?></td>

@@ -53,6 +53,11 @@ class CoordinatorsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->integer('id_user')
+            ->requirePresence('id_user', 'create')
+            ->notEmpty('id_user');
+
+        $validator
             ->scalar('prefix')
             ->maxLength('prefix', 255)
             ->requirePresence('prefix', 'create')

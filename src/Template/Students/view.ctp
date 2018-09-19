@@ -45,6 +45,10 @@
             <td><?= $this->Number->format($student->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Id User') ?></th>
+            <td><?= $this->Number->format($student->id_user) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Da') ?></th>
             <td><?= $this->Number->format($student->da) ?></td>
         </tr>

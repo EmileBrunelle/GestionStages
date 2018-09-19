@@ -53,6 +53,11 @@ class StudentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->integer('id_user')
+            ->requirePresence('id_user', 'create')
+            ->notEmpty('id_user');
+
+        $validator
             ->integer('da')
             ->requirePresence('da', 'create')
             ->notEmpty('da');

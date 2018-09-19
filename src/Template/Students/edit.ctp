@@ -21,6 +21,7 @@
     <fieldset>
         <legend><?= __('Edit Student') ?></legend>
         <?php
+            echo $this->Form->control('id_user');
             echo $this->Form->control('da');
             echo $this->Form->control('last_name');
             echo $this->Form->control('first_name');
