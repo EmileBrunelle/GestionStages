@@ -17,7 +17,9 @@
         <?php
             echo $this->Form->control('username');
             echo $this->Form->control('password');
-            echo $this->Form->control('role');
+
+            $options = ['student' => 'Student', 'employee' => 'Employee'];
+            echo $this->Form->select('role', $options, ['empty' => false]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
