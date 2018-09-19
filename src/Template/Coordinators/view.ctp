@@ -57,10 +57,6 @@
             <td><?= h($coordinator->email) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($coordinator->password) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Phone') ?></th>
             <td><?= h($coordinator->phone) ?></td>
         </tr>

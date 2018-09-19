@@ -33,7 +33,6 @@
             echo $this->Form->control('province');
             echo $this->Form->control('postal_code');
             echo $this->Form->control('email');
-            echo $this->Form->control('password');
             echo $this->Form->control('phone');
             echo $this->Form->control('extension');
             echo $this->Form->control('cellphone');

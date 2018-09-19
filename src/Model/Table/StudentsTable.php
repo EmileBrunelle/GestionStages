@@ -79,11 +79,6 @@ class StudentsTable extends Table
             ->allowEmpty('email');
 
         $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->allowEmpty('password');
-
-        $validator
             ->scalar('additional_info')
             ->maxLength('additional_info', 255)
             ->allowEmpty('additional_info');

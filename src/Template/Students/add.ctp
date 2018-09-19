@@ -20,7 +20,6 @@
             echo $this->Form->control('first_name');
             echo $this->Form->control('phone');
             echo $this->Form->control('email');
-            echo $this->Form->control('password');
             echo $this->Form->control('additional_info');
             echo $this->Form->control('note');
             echo $this->Form->control('active');

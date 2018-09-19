@@ -21,7 +21,6 @@
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('password') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('additional_info') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('note') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('active') ?></th>
@@ -39,7 +38,6 @@
                 <td><?= h($student->first_name) ?></td>
                 <td><?= h($student->phone) ?></td>
                 <td><?= h($student->email) ?></td>
-                <td><?= h($student->password) ?></td>
                 <td><?= h($student->additional_info) ?></td>
                 <td><?= h($student->note) ?></td>
                 <td><?= $this->Number->format($student->active) ?></td>

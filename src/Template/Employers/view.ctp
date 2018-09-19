@@ -59,10 +59,6 @@
             <td><?= h($employer->email) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($employer->password) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Phone') ?></th>
             <td><?= h($employer->phone) ?></td>
         </tr>

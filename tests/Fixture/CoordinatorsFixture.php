@@ -28,7 +28,6 @@ class CoordinatorsFixture extends TestFixture
         'province' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'postal_code' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'email' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'password' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'phone' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'extension' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'cellphone' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
@@ -65,13 +64,12 @@ class CoordinatorsFixture extends TestFixture
                 'province' => 'Lorem ipsum dolor sit amet',
                 'postal_code' => 'Lorem ipsum dolor sit amet',
                 'email' => 'Lorem ipsum dolor sit amet',
-                'password' => 'Lorem ipsum dolor sit amet',
                 'phone' => 'Lorem ipsum dolor sit amet',
                 'extension' => 'Lorem ipsum dolor sit amet',
                 'cellphone' => 'Lorem ipsum dolor sit amet',
                 'fax' => 'Lorem ipsum dolor sit amet',
-                'created' => '2018-09-19 18:32:41',
-                'modified' => '2018-09-19 18:32:41'
+                'created' => '2018-09-19 18:43:16',
+                'modified' => '2018-09-19 18:43:16'
             ],
         ];
         parent::init();
