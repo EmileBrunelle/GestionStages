@@ -26,6 +26,7 @@
                 <th scope="col"><?= $this->Paginator->sort('province') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('postal_code') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('password') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('extension') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('cellphone') ?></th>
@@ -49,6 +50,7 @@
                 <td><?= h($coordinator->province) ?></td>
                 <td><?= h($coordinator->postal_code) ?></td>
                 <td><?= h($coordinator->email) ?></td>
+                <td><?= h($coordinator->password) ?></td>
                 <td><?= h($coordinator->phone) ?></td>
                 <td><?= h($coordinator->extension) ?></td>
                 <td><?= h($coordinator->cellphone) ?></td>

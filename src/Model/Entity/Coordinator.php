@@ -17,6 +17,7 @@ use Cake\ORM\Entity;
  * @property string $province
  * @property string $postal_code
  * @property string $email
+ * @property string $password
  * @property string $phone
  * @property string $extension
  * @property string $cellphone
@@ -47,11 +48,21 @@ class Coordinator extends Entity
         'province' => true,
         'postal_code' => true,
         'email' => true,
+        'password' => true,
         'phone' => true,
         'extension' => true,
         'cellphone' => true,
         'fax' => true,
         'created' => true,
         'modified' => true
+    ];
+
+    /**
+     * Fields that are excluded from JSON versions of the entity.
+     *
+     * @var array
+     */
+    protected $_hidden = [
+        'password'
     ];
 }

@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property string $first_name
  * @property string $phone
  * @property string $email
+ * @property string $password
  * @property string $additional_info
  * @property string $note
  * @property int $active
@@ -36,10 +37,20 @@ class Student extends Entity
         'first_name' => true,
         'phone' => true,
         'email' => true,
+        'password' => true,
         'additional_info' => true,
         'note' => true,
         'active' => true,
         'created' => true,
         'modified' => true
+    ];
+
+    /**
+     * Fields that are excluded from JSON versions of the entity.
+     *
+     * @var array
+     */
+    protected $_hidden = [
+        'password'
     ];
 }
