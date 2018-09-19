@@ -18,7 +18,7 @@
             echo $this->Form->control('username');
             echo $this->Form->control('password');
 
-            $options = ['student' => 'Student', 'employee' => 'Employee'];
+            $options = ['student' => 'Student', 'employer' => 'Employer'];
             echo $this->Form->select('role', $options, ['empty' => false]);
         ?>
     </fieldset>

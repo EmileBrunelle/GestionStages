@@ -13,6 +13,21 @@ use App\Controller\AppController;
 class InternshipEnvironmentsController extends AppController
 {
 
+    public function isAuthorized($user) {
+        if ($user['role'])
+        $action = $this->request->getParam('action');
+
+        if (in_array($action, ['add'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'employer') {
+                return true;
+            }
+        }
+    }
+
     /**
      * Index method
      *
