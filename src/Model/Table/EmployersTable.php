@@ -41,6 +41,11 @@ class EmployersTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Users', [
+            'foreignKey' => 'id_user',
+            'joinType' => 'INNER'
+        ]);
+
         $this->hasMany('InternshipEnvironments', [
             'foreignKey' => 'employer_id'
         ]);

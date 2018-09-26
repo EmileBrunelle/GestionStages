@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 19 Septembre 2018 à 20:33
+-- Généré le :  Mer 26 Septembre 2018 à 18:43
 -- Version du serveur :  5.6.37
 -- Version de PHP :  7.1.8
 
@@ -72,7 +72,14 @@ CREATE TABLE IF NOT EXISTS `employers` (
   `fax` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `employers`
+--
+
+INSERT INTO `employers` (`id`, `id_user`, `prefix`, `last_name`, `first_name`, `title`, `location`, `address`, `city`, `province`, `postal_code`, `email`, `phone`, `extension`, `cellphone`, `fax`, `created`, `modified`) VALUES
+(1, 7, 'M', 'emp', 'emp', 'docteur', 'B-3377', '475 boul. de l''Avenir', 'Laval', 'Quebec', 'h0h 0h0', 'emp@employeur.com', '(514) 937-0707', '0707', '(514) 654-6011', '(514) 937-0707', '2018-09-26 18:13:10', '2018-09-26 18:13:10');
 
 -- --------------------------------------------------------
 
@@ -92,7 +99,14 @@ CREATE TABLE IF NOT EXISTS `internship_environments` (
   `employer_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `internship_environments`
+--
+
+INSERT INTO `internship_environments` (`id`, `name`, `address`, `city`, `province`, `postal_code`, `region`, `active`, `employer_id`, `created`, `modified`) VALUES
+(1, 'Montmorency', '475 boul. de l''Avenir', 'Laval', 'Quebec', 'h0h 0h0', 'Laval', 1, 1, '2018-09-26 18:23:59', '2018-09-26 18:23:59');
 
 -- --------------------------------------------------------
 
@@ -192,12 +206,12 @@ ALTER TABLE `coordinators`
 -- AUTO_INCREMENT pour la table `employers`
 --
 ALTER TABLE `employers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `internship_environments`
 --
 ALTER TABLE `internship_environments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `students`
 --

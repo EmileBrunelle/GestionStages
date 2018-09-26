@@ -13,6 +13,18 @@ use App\Controller\AppController;
 class EmployersController extends AppController
 {
 
+    public function isAuthorized($user)
+    {
+        if ($user['role'])
+            $action = $this->request->getParam('action');
+
+        if (in_array($action, ['add'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+        }
+    }
+
     /**
      * Index method
      *
