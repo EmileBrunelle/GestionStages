@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Table\EmployersTable;
 
 /**
  * InternshipEnvironments Controller
@@ -23,12 +24,22 @@ class InternshipEnvironmentsController extends AppController
             }
 
             if (isset($user['role']) && $user['role'] === 'employer') {
+                return true;
+            }
+        }
+
+        if (in_array($action, ['edit'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'employer') {
                 $id = $this->request->getParam('pass.0');
-                if (!id) {
+                if (!$id) {
                     return false;
                 }
-                $intershipEnvironment = $this->InternshipEnvironments->findById($id)->first();
-                return $intershipEnvironment->employer_id === $user['id'];
+                $employer = $this->InternshipEnvironments->Employers->findById($id)->first();
+                return $employer->id_user === $user['id'];
             }
         }
     }
