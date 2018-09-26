@@ -47,7 +47,7 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope(
-    '/students', ['controller' => 'Students'], function ($routes) {
+    '/internship-environments', ['controller' => 'InternshipEnvironments'], function ($routes) {
     $routes->connect('/tagged/*', ['action' => 'tags']);
 }
 );
@@ -58,7 +58,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Students', 'action' => 'index']);
+    $routes->connect('/', ['controller' => 'InternshipEnvironments', 'action' => 'index']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
