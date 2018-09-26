@@ -18,6 +18,48 @@ class UsersController extends AppController
         $this->Auth->allow(['logout', 'add']);
     }
 
+    public function isAuthorized($user)
+    {
+        if ($user['role'])
+            $action = $this->request->getParam('action');
+
+        if (in_array($action, ['add'])) {
+            return true;
+        }
+
+        if (in_array($action, ['view'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            $id = $this->request->getParam('pass.0');
+            if (!$id) {
+                return false;
+            }
+            $userAuth = $this->Users->findById($id)->first();
+            return $userAuth->id === $user['id'];
+        }
+
+        if (in_array($action, ['edit'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            $id = $this->request->getParam('pass.0');
+            if (!$id) {
+                return false;
+            }
+            $userAuth = $this->Users->findById($id)->first();
+            return $userAuth->id === $user['id'];
+        }
+
+        if (in_array($action, ['delete'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+        }
+    }
+
     /**
      * Index method
      *

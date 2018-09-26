@@ -23,13 +23,59 @@ class InternshipEnvironmentsController extends AppController
                 return true;
             }
 
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
+                return true;
+            }
+
             if (isset($user['role']) && $user['role'] === 'employer') {
                 return true;
             }
         }
 
+        if (in_array($action, ['view'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'employer') {
+                $id = $this->request->getParam('pass.0');
+                if (!$id) {
+                    return false;
+                }
+                $employer = $this->InternshipEnvironments->Employers->findById($id)->first();
+                return $employer->id_user === $user['id'];
+            }
+        }
+
         if (in_array($action, ['edit'])) {
             if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'employer') {
+                $id = $this->request->getParam('pass.0');
+                if (!$id) {
+                    return false;
+                }
+                $employer = $this->InternshipEnvironments->Employers->findById($id)->first();
+                return $employer->id_user === $user['id'];
+            }
+        }
+
+        if (in_array($action, ['delete'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
                 return true;
             }
 

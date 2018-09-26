@@ -13,6 +13,74 @@ use App\Controller\AppController;
 class StudentsController extends AppController
 {
 
+    public function isAuthorized($user)
+    {
+        if ($user['role'])
+            $action = $this->request->getParam('action');
+
+        if (in_array($action, ['add'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'student') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
+                return true;
+            }
+        }
+
+        if (in_array($action, ['view'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'student') {
+                $id = $this->request->getParam('pass.0');
+                if (!$id) {
+                    return false;
+                }
+                $student = $this->Students->findById($id)->first();
+                return $student->id_user === $user['id'];
+            }
+        }
+
+        if (in_array($action, ['edit'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'student') {
+                $id = $this->request->getParam('pass.0');
+                if (!$id) {
+                    return false;
+                }
+                $student = $this->Students->findById($id)->first();
+                return $student->id_user === $user['id'];
+            }
+        }
+
+        if (in_array($action, ['delete'])) {
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            if (isset($user['role']) && $user['role'] === 'coordinator') {
+                return true;
+            }
+        }
+    }
+
     /**
      * Index method
      *
