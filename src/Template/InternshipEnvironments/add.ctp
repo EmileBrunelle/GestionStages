@@ -25,6 +25,8 @@
             echo $this->Form->control('region');
             echo $this->Form->control('active');
             echo $this->Form->control('employer_id', ['options' => $employers]);
+            echo $this->Form->control('type_id', ['options' => $Establishment_types]);
+            echo $this->Form->control('customer_types._ids', ['options' => $Customer_types]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

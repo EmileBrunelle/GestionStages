@@ -10,6 +10,8 @@ use Cake\Validation\Validator;
  * InternshipEnvironments Model
  *
  * @property \App\Model\Table\EmployersTable|\Cake\ORM\Association\BelongsTo $Employers
+ * @property \App\Model\Table\EmployersTable|\Cake\ORM\Association\BelongsTo $Establishment_types
+ * @property \App\Model\Table\EmployersTable|\Cake\ORM\Association\BelongsToMany $Customer_types
  *
  * @method \App\Model\Entity\InternshipEnvironment get($primaryKey, $options = [])
  * @method \App\Model\Entity\InternshipEnvironment newEntity($data = null, array $options = [])
@@ -45,6 +47,17 @@ class InternshipEnvironmentsTable extends Table
             'foreignKey' => 'employer_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('Establishment_types', [
+            'foreignKey' => 'type_id',
+            'joinType' => 'INNER'
+        ]);
+
+        $this->belongsToMany('Customer_Types', [
+            'foreignKey' => 'environment_id',
+            'targetForeignKey' => 'customertype_id',
+            'joinTable' => 'ref_environment_customertypes'
+        ]);
     }
 
     /**
@@ -60,8 +73,17 @@ class InternshipEnvironmentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->integer('employer_id')
+            ->allowEmpty('employer_id', 'create');
+
+        $validator
+            ->integer('type_id')
+            ->requirePresence('type_id', 'create')
+            ->notEmpty('type_id');
+
+        $validator
             ->scalar('name')
-            ->maxLength('name', 255)
+            ->maxLength('name', 40)
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
@@ -106,6 +128,7 @@ class InternshipEnvironmentsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['employer_id'], 'Employers'));
+        $rules->add($rules->existsIn(['type_id'], 'Establishment_types'));
 
         return $rules;
     }

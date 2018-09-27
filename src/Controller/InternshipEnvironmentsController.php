@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use App\Model\Table\EmployersTable;
+use App\Model\Table\EstablishmentTypesTable;
+use App\Model\Table\CustomerTypesTable;
 
 /**
  * InternshipEnvironments Controller
@@ -139,7 +141,11 @@ class InternshipEnvironmentsController extends AppController
             $this->Flash->error(__('The internship environment could not be saved. Please, try again.'));
         }
         $employers = $this->InternshipEnvironments->Employers->find('list', ['limit' => 200]);
-        $this->set(compact('internshipEnvironment', 'employers'));
+        $Establishment_types = $this->InternshipEnvironments->Establishment_types->Find('list', ['limit' => 200]);
+        $Customer_types = $this->InternshipEnvironments->Customer_types->Find('list', ['limit' => 200]);
+
+        $this->set(compact('internshipEnvironment', 'employers', 'Establishment_types', 'Customer_types'));
+
     }
 
     /**

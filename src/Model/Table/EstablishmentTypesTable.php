@@ -32,7 +32,7 @@ class EstablishmentTypesTable extends Table
         parent::initialize($config);
 
         $this->setTable('establishment_types');
-        $this->setDisplayField('id');
+        $this->setDisplayField('type');
         $this->setPrimaryKey('id');
     }
 

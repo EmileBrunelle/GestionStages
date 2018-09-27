@@ -43,6 +43,7 @@ class InternshipEnvironment extends Entity
         'employer_id' => true,
         'created' => true,
         'modified' => true,
-        'employer' => true
+        'employer' => true,
+        'type_id' => true
     ];
 }
