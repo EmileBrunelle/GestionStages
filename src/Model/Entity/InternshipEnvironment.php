@@ -19,6 +19,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\Employer $employer
+ * @property \App\Model\Entity\CustomerType[] $Customer_types
+ * @property \App\Model\Entity\EnvironmentMission[] $Environment_missions
  */
 class InternshipEnvironment extends Entity
 {
@@ -44,6 +46,8 @@ class InternshipEnvironment extends Entity
         'created' => true,
         'modified' => true,
         'employer' => true,
-        'type_id' => true
+        'type_id' => true,
+        'Customer_types' => true,
+        'Environment_missions' => true
     ];
 }

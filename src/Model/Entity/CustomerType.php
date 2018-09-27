@@ -8,6 +8,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $types
+ *
+ * @property \App\Model\Entity\InternshipEnvironment[] $internshipEnvironments
  */
 class CustomerType extends Entity
 {
@@ -22,6 +24,7 @@ class CustomerType extends Entity
      * @var array
      */
     protected $_accessible = [
-        'types' => true
+        'types' => true,
+        'internshipEnvironments' => true
     ];
 }
