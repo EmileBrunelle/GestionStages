@@ -27,6 +27,7 @@
             echo $this->Form->control('employer_id', ['options' => $employers]);
             echo $this->Form->control('type_id', ['options' => $Establishment_types]);
             echo $this->Form->control('customer_types._ids', ['options' => $Customer_types]);
+            echo $this->Form->control('environment_missions._ids', ['options' => $Environment_missions]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

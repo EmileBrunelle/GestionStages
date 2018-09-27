@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use App\Model\Table\EmployersTable;
 use App\Model\Table\EstablishmentTypesTable;
 use App\Model\Table\CustomerTypesTable;
+use App\Model\Table\EnvironmentMissionsTable;
 
 /**
  * InternshipEnvironments Controller
@@ -143,9 +144,10 @@ class InternshipEnvironmentsController extends AppController
         $employers = $this->InternshipEnvironments->Employers->find('list', ['limit' => 200]);
         $Establishment_types = $this->InternshipEnvironments->Establishment_types->Find('list', ['limit' => 200]);
         $Customer_types = $this->InternshipEnvironments->Customer_types->Find('list', ['limit' => 200]);
+        $Environment_missions = $this->InternshipEnvironments->Environment_missions->Find('list', ['limit' => 200]);
 
-        $this->set(compact('internshipEnvironment', 'employers', 'Establishment_types', 'Customer_types'));
-
+        $this->set(compact('internshipEnvironment', 'employers', 'Establishment_types', 'Customer_types',
+                                    'Environment_missions'));
     }
 
     /**

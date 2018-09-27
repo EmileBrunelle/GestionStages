@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\EmployersTable|\Cake\ORM\Association\BelongsTo $Employers
  * @property \App\Model\Table\EmployersTable|\Cake\ORM\Association\BelongsTo $Establishment_types
  * @property \App\Model\Table\EmployersTable|\Cake\ORM\Association\BelongsToMany $Customer_types
+ * @property \App\Model\Table\EmployersTable|\Cake\ORM\Association\BelongsToMany $Environment_missions
  *
  * @method \App\Model\Entity\InternshipEnvironment get($primaryKey, $options = [])
  * @method \App\Model\Entity\InternshipEnvironment newEntity($data = null, array $options = [])
@@ -58,6 +59,14 @@ class InternshipEnvironmentsTable extends Table
             'targetForeignKey' => 'customertype_id',
             'joinTable' => 'ref_environment_customertypes'
         ]);
+
+        $this->belongsToMany('environment_missions', [
+            'foreignKey' => 'environment_id',
+            'targetForeignKey' => 'mission_id',
+            'joinTable' => 'ref_environment_missions'
+        ]);
+
+
     }
 
     /**
