@@ -54,7 +54,7 @@ class InternshipEnvironmentsTable extends Table
             'joinType' => 'INNER'
         ]);
 
-        $this->belongsToMany('Customer_Types', [
+        $this->belongsToMany('Customer_types', [
             'foreignKey' => 'environment_id',
             'targetForeignKey' => 'customertype_id',
             'joinTable' => 'ref_environment_customertypes'

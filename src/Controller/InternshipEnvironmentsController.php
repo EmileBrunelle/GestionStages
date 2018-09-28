@@ -6,6 +6,7 @@ use App\Model\Table\EmployersTable;
 use App\Model\Table\EstablishmentTypesTable;
 use App\Model\Table\CustomerTypesTable;
 use App\Model\Table\EnvironmentMissionsTable;
+use Cake\ORM\Entity;
 
 /**
  * InternshipEnvironments Controller
@@ -118,7 +119,7 @@ class InternshipEnvironmentsController extends AppController
     public function view($id = null)
     {
         $internshipEnvironment = $this->InternshipEnvironments->get($id, [
-            'contain' => ['Employers']
+            'contain' => ['Employers', 'Customer_types']
         ]);
 
         $this->set('internshipEnvironment', $internshipEnvironment);
@@ -131,9 +132,26 @@ class InternshipEnvironmentsController extends AppController
      */
     public function add()
     {
+        $this->loadModel('Customer_types');
+
         $internshipEnvironment = $this->InternshipEnvironments->newEntity();
         if ($this->request->is('post')) {
             $internshipEnvironment = $this->InternshipEnvironments->patchEntity($internshipEnvironment, $this->request->getData());
+
+            $Customer_type_save = [];
+
+            foreach($internshipEnvironment->Customer_types as $Customer_type){
+                $Customer_type_entity = $this->InternshipEnvironments->Customer_types->newEntity();
+                $Customer_type_entity -> id = $Customer_type;
+
+                /*debug($Customer_type_entity);
+                die();
+                */
+                $Customer_type_save[] = $Customer_type_entity;
+            }
+
+            $internshipEnvironment->Customer_types = $Customer_type_save;
+
             if ($this->InternshipEnvironments->save($internshipEnvironment)) {
                 $this->Flash->success(__('The internship environment has been saved.'));
 
@@ -145,6 +163,7 @@ class InternshipEnvironmentsController extends AppController
         $Establishment_types = $this->InternshipEnvironments->Establishment_types->Find('list', ['limit' => 200]);
         $Customer_types = $this->InternshipEnvironments->Customer_types->Find('list', ['limit' => 200]);
         $Environment_missions = $this->InternshipEnvironments->Environment_missions->Find('list', ['limit' => 200]);
+
 
         $this->set(compact('internshipEnvironment', 'employers', 'Establishment_types', 'Customer_types',
                                     'Environment_missions'));

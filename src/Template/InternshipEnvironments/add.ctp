@@ -26,8 +26,49 @@
             echo $this->Form->control('active');
             echo $this->Form->control('employer_id', ['options' => $employers]);
             echo $this->Form->control('type_id', ['options' => $Establishment_types]);
-            echo $this->Form->control('customer_types._ids', ['options' => $Customer_types]);
+
+            //echo $this->Form->control('customer_types._ids', ['options' => $Customer_types]);
+
+
+            $options = [];
+
+
+            foreach($Customer_types as $Customer_type_id => $customer_type){
+                $options += [$Customer_type_id => $customer_type];
+            }
+
+
+            echo $this->Form->select('Customer_types', $options, ['multiple' => 'checkbox']);
+
+
+
+            /*
+            echo $this->Form->create('GroupType');
+            foreach ($Customer_types as $Customer_type_id => $customer_type) {
+                echo '<div class="checkbox">';
+                    echo $this->Form->checkbox('Customer_type_id.', array('value'=> $Customer_type_id));
+                    echo $customer_type;
+                echo '</div>';
+            }
+            */
+
+
+            /*
+            debug($Customer_types);
+            die();
+            $iCpt = 1;
+            foreach ($Customer_types as $Customer_type){
+
+                echo '<input type="checkbox" name="customer_type_ck[]" value="" id="customer_type_ck'.$iCpt.'">';
+                echo '<label for="customer_type_ck'.$iCpt.'">'.$Customer_type.'</label>';
+
+                if ($iCpt % 2 == 0) {
+                    echo '</br>';
+                }
+                $iCpt++;
+            }
             echo $this->Form->control('environment_missions._ids', ['options' => $Environment_missions]);
+            */
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
