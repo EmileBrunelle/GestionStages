@@ -29,17 +29,24 @@
 
             //echo $this->Form->control('customer_types._ids', ['options' => $Customer_types]);
 
-
-            $options = [];
-
-
-            foreach($Customer_types as $Customer_type_id => $customer_type){
-                $options += [$Customer_type_id => $customer_type];
-            }
+            echo $this->Form->control('customer_types._ids', [
+                'type' => 'select',
+                'multiple' => 'checkbox',
+                'options' => $Customer_types,
+            ])
 
 
-            echo $this->Form->select('Customer_types', $options, ['multiple' => 'checkbox']);
+        /*
+        $options = [];
 
+
+        foreach($Customer_types as $Customer_type_id => $customer_type){
+            $options += [$Customer_type_id => $customer_type];
+        }
+
+
+        echo $this->Form->select('Customer_types', $options, ['multiple' => 'checkbox']);
+        */
 
 
             /*

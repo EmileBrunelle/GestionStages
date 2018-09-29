@@ -132,25 +132,27 @@ class InternshipEnvironmentsController extends AppController
      */
     public function add()
     {
-        $this->loadModel('Customer_types');
+        //$this->loadModel('Customer_types');
 
         $internshipEnvironment = $this->InternshipEnvironments->newEntity();
         if ($this->request->is('post')) {
+
             $internshipEnvironment = $this->InternshipEnvironments->patchEntity($internshipEnvironment, $this->request->getData());
 
+            /*
             $Customer_type_save = [];
 
             foreach($internshipEnvironment->Customer_types as $Customer_type){
                 $Customer_type_entity = $this->InternshipEnvironments->Customer_types->newEntity();
                 $Customer_type_entity -> id = $Customer_type;
 
-                /*debug($Customer_type_entity);
-                die();
-                */
+
                 $Customer_type_save[] = $Customer_type_entity;
             }
 
+
             $internshipEnvironment->Customer_types = $Customer_type_save;
+            */
 
             if ($this->InternshipEnvironments->save($internshipEnvironment)) {
                 $this->Flash->success(__('The internship environment has been saved.'));
