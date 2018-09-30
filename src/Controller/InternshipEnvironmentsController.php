@@ -104,18 +104,42 @@ class InternshipEnvironmentsController extends AppController
     public function index()
     {
         $employer_id = 0;
-        $iduser = $this->Auth->user('id');
+        $iduser = 0;
+
+        $roleuser = $this->Auth->user('role');
+
+        //Check if user is employer and assign an employer id variable to filter results
         if (isset($iduser)){
-            $employer = $this->InternshipEnvironments->Employers->findByIdUser($iduser)->first();
-            $employer_id = $employer->get('id');
+            if (isset($roleuser)) {
+                if ($roleuser === 'employer') {
+                    $iduser = $this->Auth->user('id');
+                    $employer = $this->InternshipEnvironments->Employers->findByIdUser($iduser)->first();
+                    $employer_id = $employer->get('id');
+
+                    $this->paginate = [
+                        'conditions' => ['Employers.id IN' => $employer_id],
+                        'contain' => ['Employers']
+                    ];
+
+                } else if ($roleuser === 'admin' || $roleuser === 'coordinator') {
+                    $this->paginate = [
+                        'contain' => ['Employers']
+                    ];
+                } else {
+                    $this->paginate = [
+                        'conditions' => ['Employers.id IN' => $employer_id],
+                        'contain' => ['Employers']
+                    ];
+                }
+            }
+        } else {
+            $this->paginate = [
+                'conditions' => ['Employers.id IN' => $employer_id],
+                'contain' => ['Employers']
+            ];
         }
 
-        $this->paginate = [
-            'conditions' => ['Employers.id IN' => $employer_id],
-            'contain' => ['Employers']
-        ];
         $internshipEnvironments = $this->paginate($this->InternshipEnvironments);
-
 
         $this->set(compact('internshipEnvironments'));
     }
