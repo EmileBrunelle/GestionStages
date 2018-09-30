@@ -35,7 +35,7 @@ class CustomerTypesTable extends Table
         $this->setDisplayField('types');
         $this->setPrimaryKey('id');
 
-        $this->belongsToMany('Internship_environments', [
+        $this->belongsToMany('internship_environments', [
             'foreignKey' => 'customertype_id',
             'targetForeignKey' => 'environment_id',
             'joinTable' => 'ref_environment_customertypes'

@@ -70,6 +70,11 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
+
+        $role = $this->Auth->user('role');
+        if (isset($role) && ($role === 'admin' || $role === 'coordinator')){
+            $this->set('can_view', 1);
+        }
     }
 
     /**

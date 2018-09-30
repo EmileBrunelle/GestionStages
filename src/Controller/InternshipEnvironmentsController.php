@@ -17,10 +17,11 @@ use Cake\ORM\Entity;
  */
 class InternshipEnvironmentsController extends AppController
 {
-
     public function isAuthorized($user) {
         if ($user['role'])
         $action = $this->request->getParam('action');
+
+
 
         if (in_array($action, ['add'])) {
             if (isset($user['role']) && $user['role'] === 'admin') {
@@ -132,27 +133,9 @@ class InternshipEnvironmentsController extends AppController
      */
     public function add()
     {
-        //$this->loadModel('Customer_types');
-
         $internshipEnvironment = $this->InternshipEnvironments->newEntity();
         if ($this->request->is('post')) {
-
             $internshipEnvironment = $this->InternshipEnvironments->patchEntity($internshipEnvironment, $this->request->getData());
-
-            /*
-            $Customer_type_save = [];
-
-            foreach($internshipEnvironment->Customer_types as $Customer_type){
-                $Customer_type_entity = $this->InternshipEnvironments->Customer_types->newEntity();
-                $Customer_type_entity -> id = $Customer_type;
-
-
-                $Customer_type_save[] = $Customer_type_entity;
-            }
-
-
-            $internshipEnvironment->Customer_types = $Customer_type_save;
-            */
 
             if ($this->InternshipEnvironments->save($internshipEnvironment)) {
                 $this->Flash->success(__('The internship environment has been saved.'));
@@ -161,6 +144,7 @@ class InternshipEnvironmentsController extends AppController
             }
             $this->Flash->error(__('The internship environment could not be saved. Please, try again.'));
         }
+
         $employers = $this->InternshipEnvironments->Employers->find('list', ['limit' => 200]);
         $Establishment_types = $this->InternshipEnvironments->Establishment_types->Find('list', ['limit' => 200]);
         $Customer_types = $this->InternshipEnvironments->Customer_types->Find('list', ['limit' => 200]);

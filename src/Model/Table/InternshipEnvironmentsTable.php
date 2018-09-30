@@ -49,12 +49,12 @@ class InternshipEnvironmentsTable extends Table
             'joinType' => 'INNER'
         ]);
 
-        $this->belongsTo('Establishment_types', [
+        $this->belongsTo('establishment_types', [
             'foreignKey' => 'type_id',
             'joinType' => 'INNER'
         ]);
 
-        $this->belongsToMany('Customer_types', [
+        $this->belongsToMany('customer_types', [
             'foreignKey' => 'environment_id',
             'targetForeignKey' => 'customertype_id',
             'joinTable' => 'ref_environment_customertypes'
@@ -120,6 +120,11 @@ class InternshipEnvironmentsTable extends Table
             ->scalar('region')
             ->maxLength('region', 255)
             ->allowEmpty('region');
+
+        $validator
+            ->scalar('comments')
+            ->maxLength('comments', 255)
+            ->allowEmpty('comments');
 
         $validator
             ->allowEmpty('active');

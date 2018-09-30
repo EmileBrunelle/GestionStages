@@ -48,6 +48,7 @@ class InternshipEnvironment extends Entity
         'employer' => true,
         'type_id' => true,
         'Customer_types' => true,
-        'Environment_missions' => true
+        'Environment_missions' => true,
+        'Comments' => true
     ];
 }

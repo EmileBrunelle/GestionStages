@@ -15,52 +15,56 @@
         <li><?= $this->Html->link(__('New Employer'), ['controller' => 'Employers', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
-<div class="internshipEnvironments view large-9 medium-8 columns content">
-    <h3><?= h($internshipEnvironment->name) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($internshipEnvironment->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Address') ?></th>
-            <td><?= h($internshipEnvironment->address) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('City') ?></th>
-            <td><?= h($internshipEnvironment->city) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Province') ?></th>
-            <td><?= h($internshipEnvironment->province) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Postal Code') ?></th>
-            <td><?= h($internshipEnvironment->postal_code) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Region') ?></th>
-            <td><?= h($internshipEnvironment->region) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Employer') ?></th>
-            <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->title, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($internshipEnvironment->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Active') ?></th>
-            <td><?= $this->Number->format($internshipEnvironment->active) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($internshipEnvironment->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($internshipEnvironment->modified) ?></td>
-        </tr>
-    </table>
-</div>
+
+
+    <div class="internshipEnvironments view large-9 medium-8 columns content">
+        <h3><?= h($internshipEnvironment->name) ?></h3>
+        <table class="vertical-table">
+            <tr>
+                <th scope="row"><?= __('Name') ?></th>
+                <td><?= h($internshipEnvironment->name) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Address') ?></th>
+                <td><?= h($internshipEnvironment->address) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('City') ?></th>
+                <td><?= h($internshipEnvironment->city) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Province') ?></th>
+                <td><?= h($internshipEnvironment->province) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Postal Code') ?></th>
+                <td><?= h($internshipEnvironment->postal_code) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Region') ?></th>
+                <td><?= h($internshipEnvironment->region) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Employer') ?></th>
+                <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->title, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Id') ?></th>
+                <td><?= $this->Number->format($internshipEnvironment->id) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Active') ?></th>
+                <td><?= $this->Number->format($internshipEnvironment->active) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Created') ?></th>
+                <td><?= h($internshipEnvironment->created) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Modified') ?></th>
+                <td><?= h($internshipEnvironment->modified) ?></td>
+            </tr>
+        </table>
+    </div>
+
+

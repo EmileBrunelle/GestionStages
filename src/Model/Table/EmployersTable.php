@@ -36,7 +36,7 @@ class EmployersTable extends Table
         parent::initialize($config);
 
         $this->setTable('employers');
-        $this->setDisplayField('title');
+        $this->setDisplayField('last_name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
