@@ -23,7 +23,10 @@
                 <th scope="col"><?= $this->Paginator->sort('province') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('postal_code') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('region') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('active') ?></th>
+                <?php
+                if ($roleuser === 'admin' || $roleuser === 'coordinator'){?>
+                    <th scope="col"><?= $this->Paginator->sort('active') ?></th>
+                <?php } ?>
                 <th scope="col"><?= $this->Paginator->sort('employer_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
@@ -39,8 +42,10 @@
                 <td><?= h($internshipEnvironment->province) ?></td>
                 <td><?= h($internshipEnvironment->postal_code) ?></td>
                 <td><?= h($internshipEnvironment->region) ?></td>
-                <td><?= $this->Number->format($internshipEnvironment->active) ?></td>
-                <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->title, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
+                <?php if ($roleuser === 'admin' || $roleuser === 'coordinator'){?>
+                    <td><?= $this->Number->format($internshipEnvironment->active) ?></td>
+                <?php } ?>
+                <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->last_name, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
                 <td><?= h($internshipEnvironment->created) ?></td>
                 <td><?= h($internshipEnvironment->modified) ?></td>
                 <td class="actions">

@@ -141,7 +141,7 @@ class InternshipEnvironmentsController extends AppController
 
         $internshipEnvironments = $this->paginate($this->InternshipEnvironments);
 
-        $this->set(compact('internshipEnvironments'));
+        $this->set(compact('internshipEnvironments', 'roleuser'));
     }
 
     /**
