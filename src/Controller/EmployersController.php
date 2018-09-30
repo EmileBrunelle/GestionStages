@@ -126,7 +126,10 @@ class EmployersController extends AppController
             }
             $this->Flash->error(__('The employer could not be saved. Please, try again.'));
         }
-        $this->set(compact('employer'));
+
+        $id_user = $this->Auth->user('id');
+
+        $this->set(compact('employer', 'id_user'));
     }
 
     /**
