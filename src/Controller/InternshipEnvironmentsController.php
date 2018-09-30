@@ -6,6 +6,7 @@ use App\Model\Table\EmployersTable;
 use App\Model\Table\EstablishmentTypesTable;
 use App\Model\Table\CustomerTypesTable;
 use App\Model\Table\EnvironmentMissionsTable;
+use App\Model\Entity\Employer;
 use Cake\ORM\Entity;
 
 /**
@@ -145,13 +146,18 @@ class InternshipEnvironmentsController extends AppController
             $this->Flash->error(__('The internship environment could not be saved. Please, try again.'));
         }
 
-        $employers = $this->InternshipEnvironments->Employers->find('list', ['limit' => 200]);
+        $id_user = $this->Auth->user('id');
+
+
+        $employer = $this->InternshipEnvironments->Employers->findByIdUser($id_user)->first();
+        $employer_id = $employer->get('id');
+
         $Establishment_types = $this->InternshipEnvironments->Establishment_types->Find('list', ['limit' => 200]);
         $Customer_types = $this->InternshipEnvironments->Customer_types->Find('list', ['limit' => 200]);
         $Environment_missions = $this->InternshipEnvironments->Environment_missions->Find('list', ['limit' => 200]);
 
 
-        $this->set(compact('internshipEnvironment', 'employers', 'Establishment_types', 'Customer_types',
+        $this->set(compact('internshipEnvironment', 'employer_id', 'Establishment_types', 'Customer_types',
                                     'Environment_missions'));
     }
 

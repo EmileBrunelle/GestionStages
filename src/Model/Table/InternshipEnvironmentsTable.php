@@ -83,7 +83,8 @@ class InternshipEnvironmentsTable extends Table
 
         $validator
             ->integer('employer_id')
-            ->allowEmpty('employer_id', 'create');
+            ->requirePresence('employer_id', 'create')
+            ->notEmpty('employer_id');
 
         $validator
             ->integer('type_id')
