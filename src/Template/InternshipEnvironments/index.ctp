@@ -45,7 +45,9 @@
                 <?php if ($roleuser === 'admin' || $roleuser === 'coordinator'){?>
                     <td><?= $this->Number->format($internshipEnvironment->active) ?></td>
                 <?php } ?>
-                <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->last_name, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
+                <td><?= $internshipEnvironment->has('employer') ?
+                        $this->Html->link($internshipEnvironment->employer->last_name, ['controller'
+                        => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
                 <td><?= h($internshipEnvironment->created) ?></td>
                 <td><?= h($internshipEnvironment->modified) ?></td>
                 <td class="actions">

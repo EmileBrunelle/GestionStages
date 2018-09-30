@@ -157,7 +157,10 @@ class InternshipEnvironmentsController extends AppController
             'contain' => ['Employers', 'Customer_types']
         ]);
 
+        $roleuser = $this->Auth->user('role');
+
         $this->set('internshipEnvironment', $internshipEnvironment);
+        $this->set(compact('roleuser'));
     }
 
     /**

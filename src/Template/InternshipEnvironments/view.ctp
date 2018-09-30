@@ -52,10 +52,16 @@
                 <th scope="row"><?= __('Id') ?></th>
                 <td><?= $this->Number->format($internshipEnvironment->id) ?></td>
             </tr>
+
+            <?php if ($roleuser === 'admin' || $roleuser === 'coordinator') {?>
             <tr>
                 <th scope="row"><?= __('Active') ?></th>
                 <td><?= $this->Number->format($internshipEnvironment->active) ?></td>
             </tr>
+            <?php } ?>
+
+
+
             <tr>
                 <th scope="row"><?= __('Created') ?></th>
                 <td><?= h($internshipEnvironment->created) ?></td>
