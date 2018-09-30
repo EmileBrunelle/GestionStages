@@ -103,10 +103,19 @@ class InternshipEnvironmentsController extends AppController
      */
     public function index()
     {
+        $employer_id = 0;
+        $iduser = $this->Auth->user('id');
+        if (isset($iduser)){
+            $employer = $this->InternshipEnvironments->Employers->findByIdUser($iduser)->first();
+            $employer_id = $employer->get('id');
+        }
+
         $this->paginate = [
+            'conditions' => ['Employers.id IN' => $employer_id],
             'contain' => ['Employers']
         ];
         $internshipEnvironments = $this->paginate($this->InternshipEnvironments);
+
 
         $this->set(compact('internshipEnvironments'));
     }
