@@ -104,9 +104,9 @@ class InternshipEnvironmentsController extends AppController
     public function index()
     {
         $employer_id = 0;
-        $iduser = 0;
 
         $roleuser = $this->Auth->user('role');
+        $iduser = $this->Auth->user('id');
 
         //Check if user is employer and assign an employer id variable to filter results
         if (isset($iduser)){
