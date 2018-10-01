@@ -152,12 +152,19 @@ class InternshipsController extends AppController
 
         $iduser = $this->Auth->user('id');
 
-        $employerQuery = $this->Internships->InternshipEnvironments->Employers->find('all')->where(['id_user' => $iduser]);
-        $employerResult = $employerQuery->first();
-        $employerID = $employerResult->get('id');
+        $roleuser = $this->Auth->user('role');
+        if ($roleuser === 'employer') {
+            $employerQuery = $this->Internships->InternshipEnvironments->Employers->find('all')->where(['id_user' => $iduser]);
+            $employerResult = $employerQuery->first();
+            $employerID = $employerResult->get('id');
 
-        $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list')
-            ->where(['employer_id IN' => $employerID])->toArray();
+            $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list')
+                ->where(['employer_id IN' => $employerID])->toArray();
+        }
+
+        if ($roleuser === 'admin' || $roleuser === 'coordinator'){
+            $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list');
+        }
 
         $this->set(compact('internship', 'internshipEnvironments'));
     }
@@ -186,12 +193,20 @@ class InternshipsController extends AppController
 
         $iduser = $this->Auth->user('id');
 
-        $employerQuery = $this->Internships->InternshipEnvironments->Employers->find('all')->where(['id_user' => $iduser]);
-        $employerResult = $employerQuery->first();
-        $employerID = $employerResult->get('id');
+        $roleuser = $this->Auth->user('role');
+        if ($roleuser === 'employer'){
+            $employerQuery = $this->Internships->InternshipEnvironments->Employers->find('all')->where(['id_user' => $iduser]);
+            $employerResult = $employerQuery->first();
+            $employerID = $employerResult->get('id');
 
-        $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list')
-            ->where(['employer_id IN' => $employerID])->toArray();
+            $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list')
+                ->where(['employer_id IN' => $employerID])->toArray();
+        }
+
+        if ($roleuser === 'admin' || $roleuser === 'coordinator'){
+            $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list');
+        }
+
 
         $this->set(compact('internship', 'internshipEnvironments'));
     }
