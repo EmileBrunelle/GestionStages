@@ -15,7 +15,7 @@
 <div class="employers form large-9 medium-8 columns content">
     <?= $this->Form->create($employer) ?>
     <fieldset>
-        <legend><?= __('Add Employer') ?></legend>
+        <legend><?= __('Set a new employer profile') ?></legend>
         <?php
             echo $this->Form->hidden('id_user', ['default' => $id_user]);
             echo $this->Form->control('prefix');

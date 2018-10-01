@@ -88,9 +88,28 @@ class EmployersController extends AppController
      */
     public function index()
     {
-        $employers = $this->paginate($this->Employers);
+        $isAdmin = false;
+        $requiresProfile = false;
 
-        $this->set(compact('employers'));
+        $iduser = $this->Auth->user('id');
+        $roleuser = $this->Auth->user('role');
+
+        if ($roleuser === 'admin' || $roleuser === 'coordinator'){
+            $isAdmin = true;
+        }
+
+        if ($roleuser === 'employer'){
+            //Set employer object based on user profile to check if they need a new profile
+            $employer = $this->Employers->findByIdUser($iduser)->first();
+
+            if ($employer === null){
+                $requiresProfile = true;
+            }
+        }
+
+
+        $employers = $this->paginate($this->Employers);
+        $this->set(compact('employers', 'requiresProfile', 'isAdmin'));
     }
 
     /**

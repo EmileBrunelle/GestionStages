@@ -4,6 +4,9 @@
  * @var \App\Model\Entity\InternshipEnvironment[]|\Cake\Collection\CollectionInterface $internshipEnvironments
  */
 ?>
+
+<?php if (! $requiresProfile){ ?>
+
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
@@ -70,3 +73,14 @@
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
+<?php }?>
+
+<?php if ($requiresProfile) { ?>
+    <div class="row">
+        <h3>No employer profile</h3>
+    </div>
+
+    <div class="row">
+        <?= $this->Html->link(__('Please create a new employer profile'), ['controller' => 'Employers', 'action' => 'add']); ?>
+    </div>
+<?php } ?>

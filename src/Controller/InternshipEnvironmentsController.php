@@ -103,10 +103,20 @@ class InternshipEnvironmentsController extends AppController
      */
     public function index()
     {
-        $employer_id = 0;
+        $requiresProfile = false;
 
+        $employer_id = 0;
         $roleuser = $this->Auth->user('role');
         $iduser = $this->Auth->user('id');
+
+        if ($roleuser === 'employer'){
+            //Set employer object based on user profile to check if they need a new profile
+            $employer = $this->InternshipEnvironments->Employers->findByIdUser($iduser)->first();
+
+            if ($employer === null){
+                $requiresProfile = true;
+            }
+        }
 
         //Check if user is employer and assign an employer id variable to filter results
         if (isset($iduser)){
@@ -144,7 +154,7 @@ class InternshipEnvironmentsController extends AppController
 
         $internshipEnvironments = $this->paginate($this->InternshipEnvironments);
 
-        $this->set(compact('internshipEnvironments', 'roleuser'));
+        $this->set(compact('internshipEnvironments', 'roleuser', 'requiresProfile'));
     }
 
     /**
