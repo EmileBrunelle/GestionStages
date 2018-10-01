@@ -59,29 +59,34 @@ class StudentsTable extends Table
 
         $validator
             ->integer('da')
+            ->minLength('da', 9)
+            ->maxLength('da', 9)
             ->requirePresence('da', 'create')
             ->notEmpty('da');
 
         $validator
             ->scalar('last_name')
-            ->maxLength('last_name', 255)
+            ->maxLength('last_name', 20)
             ->requirePresence('last_name', 'create')
             ->notEmpty('last_name');
 
         $validator
             ->scalar('first_name')
-            ->maxLength('first_name', 255)
+            ->maxLength('first_name', 20)
             ->requirePresence('first_name', 'create')
             ->notEmpty('first_name');
 
         $validator
             ->scalar('phone')
-            ->maxLength('phone', 255)
-            ->allowEmpty('phone');
+            ->minLength('phone', 10)
+            ->maxLength('phone', 10)
+            ->requirePresence('phone', 'create')
+            ->notEmpty('phone');
 
         $validator
             ->email('email')
-            ->allowEmpty('email');
+            ->requirePresence('email', 'create')
+            ->notEmpty('email');
 
         $validator
             ->scalar('additional_info')
@@ -108,6 +113,7 @@ class StudentsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->isUnique(['da']));
         $rules->add($rules->isUnique(['email']));
 
         return $rules;

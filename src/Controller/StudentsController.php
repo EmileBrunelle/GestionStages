@@ -24,7 +24,12 @@ class StudentsController extends AppController
             }
 
             if (isset($user['role']) && $user['role'] === 'student') {
-                return true;
+
+                $student = $this->Students->findByIdUser($user['id'])->first();
+
+                if ($student === null){
+                    return true;
+                }
             }
 
             if (isset($user['role']) && $user['role'] === 'coordinator') {
@@ -126,7 +131,10 @@ class StudentsController extends AppController
             }
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }
-        $this->set(compact('student'));
+
+        $id_user = $this->Auth->user('id');
+
+        $this->set(compact('student', 'id_user'));
     }
 
     /**
