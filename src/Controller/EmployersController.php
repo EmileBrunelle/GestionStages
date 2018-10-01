@@ -28,7 +28,11 @@ class EmployersController extends AppController
             }
 
             if (isset($user['role']) && $user['role'] === 'employer') {
-                return true;
+                $employer = $this->Employers->findByIdUser($user['id'])->first();
+
+                if ($employer === null){
+                    return true;
+                }
             }
         }
 

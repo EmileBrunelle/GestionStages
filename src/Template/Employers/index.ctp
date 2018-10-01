@@ -94,5 +94,3 @@
         <?= $this->Html->link(__('Please create a new employer profile'), ['controller' => 'Employers', 'action' => 'add']); ?>
     </div>
 <?php } ?>
-
-
