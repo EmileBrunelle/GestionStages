@@ -114,7 +114,10 @@ class InternshipEnvironmentsController extends AppController
                 if ($roleuser === 'employer') {
                     $iduser = $this->Auth->user('id');
                     $employer = $this->InternshipEnvironments->Employers->findByIdUser($iduser)->first();
-                    $employer_id = $employer->get('id');
+                    if ($employer != null){
+                        $employer_id = $employer->get('id');
+                    }
+
 
                     $this->paginate = [
                         'conditions' => ['Employers.id IN' => $employer_id],
@@ -183,7 +186,6 @@ class InternshipEnvironmentsController extends AppController
         }
 
         $id_user = $this->Auth->user('id');
-
 
         $employer = $this->InternshipEnvironments->Employers->findByIdUser($id_user)->first();
         $employer_id = $employer->get('id');

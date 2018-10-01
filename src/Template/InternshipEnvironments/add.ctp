@@ -23,7 +23,7 @@
             echo $this->Form->control('province');
             echo $this->Form->control('postal_code');
             echo $this->Form->control('region');
-            echo $this->Form->control('active');
+            echo $this->Form->hidden('active', ['default' => 1]);
             echo $this->Form->hidden('employer_id', ['default' => $employer_id]);
             echo $this->Form->control('type_id', ['options' => $Establishment_types]);
             echo $this->Form->control('comments');
