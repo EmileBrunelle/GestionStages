@@ -26,7 +26,16 @@ class InternshipsController extends AppController
             }
 
             if (isset($user['role']) && $user['role'] === 'employer') {
-                return true;
+                $roleuser = $this->Auth->user('role');
+                $iduser = $this->Auth->user('id');
+
+                if ($roleuser === 'employer'){
+                    $employer = $this->Internships->InternshipEnvironments->Employers->findByIdUser($iduser)->first();
+
+                    if ($employer != null){
+                        return true;
+                    }
+                }
             }
         }
 
@@ -40,12 +49,7 @@ class InternshipsController extends AppController
             }
 
             if (isset($user['role']) && $user['role'] === 'employer') {
-                $id = $this->request->getParam('pass.0');
-                if (!$id) {
-                    return false;
-                }
-                $employer = $this->Internships->InternshipEnvironments->Employers->findById($id)->first();
-                return $employer->id_user === $user['id'];
+                return true;
             }
         }
 
@@ -82,7 +86,7 @@ class InternshipsController extends AppController
                 if (!$id) {
                     return false;
                 }
-                $employer = $this->InternshipEnvironments->Employers->findById($id)->first();
+                $employer = $this->Internships->InternshipEnvironments->Employers->findById($id)->first();
                 return $employer->id_user === $user['id'];
             }
         }
