@@ -42,7 +42,7 @@
     </div>
 
     <div class="row">
-        <h4><?= __('Email') ?></h4>
+        <h4><?= __('Email address') ?></h4>
         <?= $this->Text->autoParagraph(h($employer->email)); ?>
     </div>
 </div>
