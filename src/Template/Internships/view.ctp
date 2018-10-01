@@ -16,7 +16,7 @@
     </ul>
 </nav>
 <div class="internships view large-9 medium-8 columns content">
-    <h3>Internship</h3>
+    <h3>Internship description</h3>
 
     <div class="row">
         <h4><?= __('Position') ?></h4>
