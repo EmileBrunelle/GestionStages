@@ -26,8 +26,6 @@
             echo $this->Form->control('position');
             echo $this->Form->control('description');
             echo $this->Form->control('environment_id', ['options' => $internshipEnvironments, 'empty' => true]);
-            echo $this->Form->control('CREATED', ['empty' => true]);
-            echo $this->Form->control('MODIFIED', ['empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
