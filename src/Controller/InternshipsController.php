@@ -3,6 +3,9 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
+use App\Model\Table\InternshipEnvironmentsTable;
+use App\Model\Entity\InternshipEnvironment;
+
 /**
  * Internships Controller
  *
@@ -146,7 +149,16 @@ class InternshipsController extends AppController
             }
             $this->Flash->error(__('The internship could not be saved. Please, try again.'));
         }
-        $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list', ['limit' => 200]);
+
+        $iduser = $this->Auth->user('id');
+
+        $employerQuery = $this->Internships->InternshipEnvironments->Employers->find('all')->where(['id_user' => $iduser]);
+        $employerResult = $employerQuery->first();
+        $employerID = $employerResult->get('id');
+
+        $internshipEnvironments = $this->Internships->InternshipEnvironments->find('list')
+            ->where(['employer_id IN' => $employerID])->toArray();
+
         $this->set(compact('internship', 'internshipEnvironments'));
     }
 
