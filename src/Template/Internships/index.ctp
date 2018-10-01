@@ -17,20 +17,16 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('position') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('environment_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('CREATED') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('MODIFIED') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($internships as $internship): ?>
             <tr>
-                <td><?= $this->Number->format($internship->id) ?></td>
+                <td><?= h($internship->position) ?></td>
                 <td><?= $internship->has('internship_environment') ? $this->Html->link($internship->internship_environment->name, ['controller' => 'InternshipEnvironments', 'action' => 'view', $internship->internship_environment->id]) : '' ?></td>
-                <td><?= h($internship->CREATED) ?></td>
-                <td><?= h($internship->MODIFIED) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $internship->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $internship->id]) ?>

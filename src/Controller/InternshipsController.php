@@ -117,6 +117,12 @@ class InternshipsController extends AppController
         ]);
 
         $this->set('internship', $internship);
+
+        $eid = $internship->internship_environment->get('employer_id');
+
+        $employer = $this->Internships->InternshipEnvironments->Employers->findById($eid)->first();
+
+        $this->set(compact('employer'));
     }
 
     /**

@@ -31,8 +31,6 @@ class Internship extends Entity
         'position' => true,
         'description' => true,
         'environment_id' => true,
-        'CREATED' => true,
-        'MODIFIED' => true,
         'internship_environment' => true
     ];
 }

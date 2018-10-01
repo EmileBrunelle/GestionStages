@@ -64,13 +64,6 @@ class InternshipsTable extends Table
             ->requirePresence('description', 'create')
             ->notEmpty('description');
 
-        $validator
-            ->dateTime('CREATED')
-            ->allowEmpty('CREATED');
-
-        $validator
-            ->dateTime('MODIFIED')
-            ->allowEmpty('MODIFIED');
 
         return $validator;
     }
