@@ -145,7 +145,7 @@ class EmployersController extends AppController
             if ($this->Employers->save($employer)) {
                 $this->Flash->success(__('The employer has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'InternshipEnvironments', 'action' => 'index']);
             }
             $this->Flash->error(__('The employer could not be saved. Please, try again.'));
         }
