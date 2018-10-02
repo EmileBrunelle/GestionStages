@@ -23,7 +23,11 @@
     <fieldset>
         <legend><?= __('Edit Employer') ?></legend>
         <?php
-            echo $this->Form->control('id_user');
+        if ($role === 'coordinator' || $role === 'admin') {
+            echo $this->Form->control('id_user', ['options' => $users]);
+        } else {
+            echo $this->Form->hidden('id_user');
+        }
             echo $this->Form->control('prefix');
             echo $this->Form->control('last_name');
             echo $this->Form->control('first_name');

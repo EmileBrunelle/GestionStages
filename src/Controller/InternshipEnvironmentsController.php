@@ -84,15 +84,6 @@ class InternshipEnvironmentsController extends AppController
             if (isset($user['role']) && $user['role'] === 'coordinator') {
                 return true;
             }
-
-            if (isset($user['role']) && $user['role'] === 'employer') {
-                $id = $this->request->getParam('pass.0');
-                if (!$id) {
-                    return false;
-                }
-                $employer = $this->InternshipEnvironments->Employers->findById($id)->first();
-                return $employer->id_user === $user['id'];
-            }
         }
     }
 
@@ -197,16 +188,23 @@ class InternshipEnvironmentsController extends AppController
 
         $id_user = $this->Auth->user('id');
 
-        $employer = $this->InternshipEnvironments->Employers->findByIdUser($id_user)->first();
-        $employer_id = $employer->get('id');
+        $role_user = $this->Auth->user('role');
+
+        if ($role_user === 'coordinator' || $role_user === 'admin'){
+            $employers = $this->InternshipEnvironments->Employers->find('list', ['limit' => 200]);
+        } else {
+            $employer = $this->InternshipEnvironments->Employers->findByIdUser($id_user)->first();
+            $employer_id = $employer->get('id');
+        }
+
 
         $Establishment_types = $this->InternshipEnvironments->Establishment_types->Find('list', ['limit' => 200]);
         $Customer_types = $this->InternshipEnvironments->Customer_types->Find('list', ['limit' => 200]);
         $Environment_missions = $this->InternshipEnvironments->Environment_missions->Find('list', ['limit' => 200]);
 
 
-        $this->set(compact('internshipEnvironment', 'employer_id', 'Establishment_types', 'Customer_types',
-                                    'Environment_missions'));
+        $this->set(compact('internshipEnvironment', 'employer_id', 'employers', 'Establishment_types', 'Customer_types',
+                                    'Environment_missions', 'role_user'));
     }
 
     /**

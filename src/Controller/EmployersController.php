@@ -176,7 +176,18 @@ class EmployersController extends AppController
             }
             $this->Flash->error(__('The employer could not be saved. Please, try again.'));
         }
-        $this->set(compact('employer'));
+
+        //Get a list of users
+        $role = $this->Auth->user('role');
+
+        if ($role === 'coordinator' || $role === 'admin'){
+            $this->loadModel('Users');
+            $users = $this->Users->find('list')
+                ->where(['role IN' => 'employer'])->toArray();
+        }
+
+
+        $this->set(compact('employer', 'users', 'role'));
     }
 
     /**
