@@ -73,6 +73,22 @@
 
         <div class="related">
 
+            <h4><?= __('Customer types') ?></h4>
+
+            <?php foreach ($internshipEnvironment->customer_types as $customer_type): ?>
+                <?= h('• ' . $customer_type->types) ?>
+            <br/>
+
+            <?php endforeach; ?>
+
+            <h4><?= __('Environment missions') ?></h4>
+
+            <?php foreach ($internshipEnvironment->environment_missions as $environment_mission): ?>
+                <?= h('• ' . $environment_mission->missions) ?>
+                <br/>
+
+            <?php endforeach; ?>
+
         </div>
     </div>
 

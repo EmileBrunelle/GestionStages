@@ -164,6 +164,11 @@ class InternshipEnvironmentsController extends AppController
 
         $roleuser = $this->Auth->user('role');
 
+        /*
+        $types = $internshipEnvironment->Customer_types->Find('list', ['limit' => 200]);
+        debug($types);
+        */
+
         $this->set('internshipEnvironment', $internshipEnvironment);
         $this->set(compact('roleuser'));
     }
