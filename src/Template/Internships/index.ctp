@@ -8,9 +8,12 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Internship'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Internship Environments'), ['controller' => 'InternshipEnvironments', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Internship Environment'), ['controller' => 'InternshipEnvironments', 'action' => 'add']) ?></li>
+        <li><br/></li>
+        <li><?= $this->Html->link(__('New Employer'), ['controller' => 'Employers', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Employers'), ['controller' => 'Employers', 'action' => 'index']) ?></li>
+
     </ul>
 </nav>
 <div class="internships index large-9 medium-8 columns content">
@@ -30,8 +33,11 @@
                 <td><?= $internship->has('internship_environment') ? $this->Html->link($internship->internship_environment->name, ['controller' => 'InternshipEnvironments', 'action' => 'view', $internship->internship_environment->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $internship->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $internship->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $internship->id], ['confirm' => __('Are you sure you want to delete # {0}?', $internship->id)]) ?>
+                    <?php if ($roleuser != 'student'){ ?>
+                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $internship->id]) ?>
+                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $internship->id], ['confirm' => __('Are you sure you want to delete # {0}?', $internship->id)]) ?>
+                    <?php } ?>
+
                 </td>
             </tr>
             <?php endforeach; ?>

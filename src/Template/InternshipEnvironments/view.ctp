@@ -48,19 +48,17 @@
                 <th scope="row"><?= __('Employer') ?></th>
                 <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->title, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
             </tr>
+
+            <?php if ($roleuser === 'admin' || $roleuser === 'coordinator') {?>
             <tr>
                 <th scope="row"><?= __('Id') ?></th>
                 <td><?= $this->Number->format($internshipEnvironment->id) ?></td>
             </tr>
 
-            <?php if ($roleuser === 'admin' || $roleuser === 'coordinator') {?>
             <tr>
                 <th scope="row"><?= __('Active') ?></th>
                 <td><?= $this->Number->format($internshipEnvironment->active) ?></td>
             </tr>
-            <?php } ?>
-
-
 
             <tr>
                 <th scope="row"><?= __('Created') ?></th>
@@ -70,6 +68,7 @@
                 <th scope="row"><?= __('Modified') ?></th>
                 <td><?= h($internshipEnvironment->modified) ?></td>
             </tr>
+            <?php } ?>
         </table>
     </div>
 

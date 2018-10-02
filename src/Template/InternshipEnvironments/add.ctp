@@ -35,7 +35,7 @@
             echo "<hr/>";
             echo $this->Form->control('customer_types._ids', [
                 'type' => 'select',
-                'multiple' => 'checkbox',
+                'multiple' => 'list',
                 'options' => $Customer_types,
             ]);
 

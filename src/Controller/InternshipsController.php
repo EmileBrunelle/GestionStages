@@ -107,7 +107,9 @@ class InternshipsController extends AppController
         ];
         $internships = $this->paginate($this->Internships);
 
-        $this->set(compact('internships'));
+        $roleuser = $this->Auth->user('role');
+
+        $this->set(compact('internships', 'roleuser'));
     }
 
     /**

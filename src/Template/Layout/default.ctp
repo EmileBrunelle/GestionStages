@@ -42,12 +42,15 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </ul>
         <div class="top-bar-section">
             <ul class="right">
+                <li>
+                    <?= $this->Html->link('Home', ['controller' => 'Internships', 'action' => 'index']); ?>
+                </li>
                     <?php
                     $loguser = $this->request->getSession()->read('Auth.User');
                     if ($loguser) {
                         $user = $loguser['username'];
                         echo '<li>';
-                        echo $this->Html->link($user . ' Logout', ['controller' => 'Users', 'action' => 'logout']);
+                        echo $this->Html->link($user . ' - Logout', ['controller' => 'Users', 'action' => 'logout']);
                         echo '</li>';
                     } else {
                         echo '<li>';
