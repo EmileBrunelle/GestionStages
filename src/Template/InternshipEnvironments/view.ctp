@@ -48,6 +48,15 @@
                 <th scope="row"><?= __('Employer') ?></th>
                 <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->title, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
             </tr>
+            <tr>
+                <th scope="row"><?= __('Establishment type') ?></th>
+                <td><?= h($internshipEnvironment->establishment_type->type) ?></td>
+            </tr>
+            <tr>
+                <th scope="row"><?= __('Comments') ?></th>
+                <td><?= h($internshipEnvironment->comments) ?></td>
+            </tr>
+
 
             <?php if ($roleuser === 'admin' || $roleuser === 'coordinator') {?>
             <tr>
@@ -73,6 +82,10 @@
 
         <div class="related">
 
+            <h4><?= __('Establishment type') ?></h4>
+            <?= h('• ' . $internshipEnvironment->establishment_type->type) ?>
+            <br/>
+
             <h4><?= __('Customer types') ?></h4>
 
             <?php foreach ($internshipEnvironment->customer_types as $customer_type): ?>
@@ -91,5 +104,3 @@
 
         </div>
     </div>
-
-

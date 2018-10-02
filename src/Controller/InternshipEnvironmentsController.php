@@ -159,7 +159,7 @@ class InternshipEnvironmentsController extends AppController
     public function view($id = null)
     {
         $internshipEnvironment = $this->InternshipEnvironments->get($id, [
-            'contain' => ['Employers', 'Customer_types', 'Environment_missions']
+            'contain' => ['Employers', 'establishment_types', 'Customer_types', 'Environment_missions']
         ]);
 
         $roleuser = $this->Auth->user('role');
