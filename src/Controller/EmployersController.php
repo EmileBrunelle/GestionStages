@@ -151,8 +151,9 @@ class EmployersController extends AppController
         }
 
         $id_user = $this->Auth->user('id');
+        $role_user = $this->Auth->user('role');
 
-        $this->set(compact('employer', 'id_user'));
+        $this->set(compact('employer', 'id_user', 'role_user'));
     }
 
     /**

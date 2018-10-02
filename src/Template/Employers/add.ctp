@@ -17,7 +17,12 @@
     <fieldset>
         <legend><?= __('Set a new employer profile') ?></legend>
         <?php
-            echo $this->Form->hidden('id_user', ['default' => $id_user]);
+            if ($role_user === 'employer') {
+                echo $this->Form->hidden('id_user', ['default' => $id_user]);
+            } else {
+                echo $this->Form->hidden('id_user', ['default' => null]);
+            }
+
             echo $this->Form->control('prefix');
             echo $this->Form->control('last_name');
             echo $this->Form->control('first_name');

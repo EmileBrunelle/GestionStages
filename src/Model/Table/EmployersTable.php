@@ -65,75 +65,76 @@ class EmployersTable extends Table
 
         $validator
             ->integer('id_user')
-            ->requirePresence('id_user', 'create')
-            ->notEmpty('id_user');
+            ->allowEmpty('id_user', 'create');
 
         $validator
             ->scalar('prefix')
-            ->maxLength('prefix', 255)
+            ->maxLength('prefix', 10)
             ->requirePresence('prefix', 'create')
             ->notEmpty('prefix');
 
         $validator
             ->scalar('last_name')
-            ->maxLength('last_name', 255)
+            ->maxLength('last_name', 25)
             ->requirePresence('last_name', 'create')
             ->notEmpty('last_name');
 
         $validator
             ->scalar('first_name')
-            ->maxLength('first_name', 255)
+            ->maxLength('first_name', 25)
             ->requirePresence('first_name', 'create')
             ->notEmpty('first_name');
 
         $validator
             ->scalar('title')
-            ->maxLength('title', 255)
-            ->allowEmpty('title');
+            ->maxLength('title', 15)
+            ->notEmpty('title');
 
         $validator
             ->scalar('location')
-            ->maxLength('location', 255)
-            ->allowEmpty('location');
+            ->maxLength('location', 30)
+            ->notEmpty('location');
 
         $validator
             ->scalar('address')
-            ->maxLength('address', 255)
-            ->allowEmpty('address');
+            ->maxLength('address', 15)
+            ->notEmpty('address');
 
         $validator
             ->scalar('city')
-            ->maxLength('city', 255)
-            ->allowEmpty('city');
+            ->maxLength('city', 20)
+            ->notEmpty('city');
 
         $validator
             ->scalar('province')
-            ->maxLength('province', 255)
-            ->allowEmpty('province');
+            ->maxLength('province', 20)
+            ->notEmpty('province');
 
         $validator
             ->scalar('postal_code')
-            ->maxLength('postal_code', 255)
-            ->allowEmpty('postal_code');
+            ->maxLength('postal_code', 6)
+            ->minLength('postal_code', 6)
+            ->notEmpty('postal_code');
 
         $validator
             ->email('email')
-            ->allowEmpty('email');
+            ->notEmpty('email');
 
         $validator
             ->scalar('phone')
-            ->maxLength('phone', 255)
-            ->allowEmpty('phone');
+            ->maxLength('phone', 10)
+            ->notEmpty('phone');
 
         $validator
             ->scalar('extension')
-            ->maxLength('extension', 255)
+            ->maxLength('extension', 6)
             ->allowEmpty('extension');
 
         $validator
             ->scalar('cellphone')
-            ->maxLength('cellphone', 255)
-            ->allowEmpty('cellphone');
+            ->maxLength('cellphone', 10)
+            ->minLength('cellphone', 10)
+            ->notEmpty('cellphone');
 
         $validator
             ->scalar('fax')
