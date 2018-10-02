@@ -35,7 +35,7 @@ class EnvironmentMissionsTable extends Table
         $this->setDisplayField('missions');
         $this->setPrimaryKey('id');
 
-        $this->belongsToMany('Internship_environments', [
+        $this->belongsToMany('internship_environments', [
             'foreignKey' => 'mission_id',
             'targetForeignKey' => 'environment_id',
             'joinTable' => 'ref_environment_missions'

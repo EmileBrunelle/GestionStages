@@ -8,6 +8,7 @@ use App\Model\Table\CustomerTypesTable;
 use App\Model\Table\EnvironmentMissionsTable;
 use App\Model\Entity\Employer;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * InternshipEnvironments Controller
@@ -158,7 +159,7 @@ class InternshipEnvironmentsController extends AppController
     public function view($id = null)
     {
         $internshipEnvironment = $this->InternshipEnvironments->get($id, [
-            'contain' => ['Employers', 'Customer_types']
+            'contain' => ['Employers', 'Customer_types', 'Environment_missions']
         ]);
 
         $roleuser = $this->Auth->user('role');
@@ -201,7 +202,6 @@ class InternshipEnvironmentsController extends AppController
         $Establishment_types = $this->InternshipEnvironments->Establishment_types->Find('list', ['limit' => 200]);
         $Customer_types = $this->InternshipEnvironments->Customer_types->Find('list', ['limit' => 200]);
         $Environment_missions = $this->InternshipEnvironments->Environment_missions->Find('list', ['limit' => 200]);
-
 
         $this->set(compact('internshipEnvironment', 'employer_id', 'employers', 'Establishment_types', 'Customer_types',
                                     'Environment_missions', 'role_user'));

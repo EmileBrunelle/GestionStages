@@ -34,16 +34,18 @@
 
             echo "<hr/>";
             echo $this->Form->control('customer_types._ids', [
-                'type' => 'select',
-                'multiple' => 'list',
                 'options' => $Customer_types,
+                'id' => 'magicselect',
+                'type' => 'select',
+                'multiple' => 'checkbox'
             ]);
 
             echo "<hr/>";
             echo $this->Form->control('environment_missions._ids', [
+                'options' => $Environment_missions,
+                'id' => 'magicselect',
                 'type' => 'select',
                 'multiple' => 'checkbox',
-                'options' => $Environment_missions,
             ]);
 
         ?>

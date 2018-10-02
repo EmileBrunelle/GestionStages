@@ -27,6 +27,7 @@
             </tr>
         </thead>
         <tbody>
+        <?php if ($roleuser != '') { ?>
             <?php foreach ($internships as $internship): ?>
             <tr>
                 <td><?= h($internship->position) ?></td>
@@ -37,10 +38,10 @@
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $internship->id]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $internship->id], ['confirm' => __('Are you sure you want to delete # {0}?', $internship->id)]) ?>
                     <?php } ?>
-
                 </td>
             </tr>
             <?php endforeach; ?>
+        <?php } ?>
         </tbody>
     </table>
     <div class="paginator">

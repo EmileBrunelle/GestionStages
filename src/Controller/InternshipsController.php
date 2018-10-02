@@ -102,12 +102,13 @@ class InternshipsController extends AppController
      */
     public function index()
     {
+        $roleuser = $this->Auth->user('role');
+
         $this->paginate = [
             'contain' => ['InternshipEnvironments']
         ];
         $internships = $this->paginate($this->Internships);
 
-        $roleuser = $this->Auth->user('role');
 
         $this->set(compact('internships', 'roleuser'));
     }

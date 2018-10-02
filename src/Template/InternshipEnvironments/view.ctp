@@ -70,6 +70,10 @@
             </tr>
             <?php } ?>
         </table>
+
+        <div class="related">
+
+        </div>
     </div>
 
 
