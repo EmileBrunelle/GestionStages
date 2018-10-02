@@ -17,12 +17,12 @@
     <fieldset>
         <legend><?= __('Add Internship Environment') ?></legend>
         <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('address');
-            echo $this->Form->control('city');
-            echo $this->Form->control('province');
-            echo $this->Form->control('postal_code');
-            echo $this->Form->control('region');
+            echo $this->Form->control('name', ['type' => 'text']);
+            echo $this->Form->control('address', ['type' => 'text']);
+            echo $this->Form->control('city', ['type' => 'text']);
+            echo $this->Form->control('province', ['type' => 'text']);
+            echo $this->Form->control('postal_code', ['type' => 'text']);
+            echo $this->Form->control('region', ['type' => 'text']);
             echo $this->Form->hidden('active', ['default' => 1]);
             if ($role_user === 'employer'){
                 echo $this->Form->hidden('employer_id', ['default' => $employer_id]);
@@ -30,7 +30,7 @@
                 echo $this->Form->control('employer_id', ['options' => $employers]);
             }
             echo $this->Form->control('type_id', ['options' => $Establishment_types]);
-            echo $this->Form->control('comments');
+            echo $this->Form->control('comments', ['type' => 'text']);
 
             echo "<hr/>";
             echo $this->Form->control('customer_types._ids', [

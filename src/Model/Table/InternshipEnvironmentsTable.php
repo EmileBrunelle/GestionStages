@@ -99,28 +99,28 @@ class InternshipEnvironmentsTable extends Table
 
         $validator
             ->scalar('address')
-            ->maxLength('address', 255)
-            ->allowEmpty('address');
+            ->maxLength('address', 50)
+            ->notEmpty('address');
 
         $validator
             ->scalar('city')
-            ->maxLength('city', 255)
-            ->allowEmpty('city');
+            ->maxLength('city', 40)
+            ->notEmpty('city');
 
         $validator
             ->scalar('province')
-            ->maxLength('province', 255)
-            ->allowEmpty('province');
+            ->maxLength('province', 30)
+            ->notEmpty('province');
 
         $validator
             ->scalar('postal_code')
-            ->maxLength('postal_code', 255)
-            ->allowEmpty('postal_code');
+            ->maxLength('postal_code', 6)
+            ->notEmpty('postal_code');
 
         $validator
             ->scalar('region')
-            ->maxLength('region', 255)
-            ->allowEmpty('region');
+            ->maxLength('region', 50)
+            ->notEmpty('region');
 
         $validator
             ->scalar('comments')

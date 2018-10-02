@@ -23,20 +23,20 @@
                 echo $this->Form->hidden('id_user', ['default' => null]);
             }
 
-            echo $this->Form->control('prefix');
-            echo $this->Form->control('last_name');
-            echo $this->Form->control('first_name');
-            echo $this->Form->control('title');
-            echo $this->Form->control('location');
-            echo $this->Form->control('address');
-            echo $this->Form->control('city');
-            echo $this->Form->control('province');
-            echo $this->Form->control('postal_code');
+            echo $this->Form->control('prefix', ['type' => 'text']);
+            echo $this->Form->control('last_name', ['type' => 'text']);
+            echo $this->Form->control('first_name', ['type' => 'text']);
+            echo $this->Form->control('title', ['type' => 'text']);
+            echo $this->Form->control('location', ['type' => 'text']);
+            echo $this->Form->control('address', ['type' => 'text']);
+            echo $this->Form->control('city', ['type' => 'text']);
+            echo $this->Form->control('province', ['type' => 'text']);
+            echo $this->Form->control('postal_code', ['type' => 'text']);
             echo $this->Form->control('email');
             echo $this->Form->control('phone');
-            echo $this->Form->control('extension');
-            echo $this->Form->control('cellphone');
-            echo $this->Form->control('fax');
+            echo $this->Form->control('extension', ['type' => 'text']);
+            echo $this->Form->control('cellphone', ['type' => 'text']);
+            echo $this->Form->control('fax', ['type' => 'text']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

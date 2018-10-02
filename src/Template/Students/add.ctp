@@ -17,8 +17,8 @@
         <?php
             echo $this->Form->hidden('id_user', ['default' => $id_user]);
             echo $this->Form->control('da');
-            echo $this->Form->control('first_name');
-            echo $this->Form->control('last_name');
+            echo $this->Form->control('first_name', ['type' => 'text']);
+            echo $this->Form->control('last_name', ['type' => 'text']);
             echo $this->Form->control('phone');
             echo $this->Form->control('email');
             echo $this->Form->control('additional_info');

@@ -17,9 +17,9 @@
     <fieldset>
         <legend><?= __('Add Internship') ?></legend>
         <?php
-            echo $this->Form->control('position');
-            echo $this->Form->control('description');
-            echo $this->Form->control('environment_id', ['options' => $internshipEnvironments, 'empty' => true]);
+            echo $this->Form->control('position', ['type' => 'text']);
+            echo $this->Form->control('description', ['type' => 'text']);
+            echo $this->Form->control('environment_id', ['options' => $internshipEnvironments]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
