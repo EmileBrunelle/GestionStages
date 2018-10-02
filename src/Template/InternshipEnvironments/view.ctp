@@ -11,8 +11,6 @@
         <li><?= $this->Form->postLink(__('Delete Internship Environment'), ['action' => 'delete', $internshipEnvironment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $internshipEnvironment->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Internship Environments'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Internship Environment'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Employers'), ['controller' => 'Employers', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Employer'), ['controller' => 'Employers', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 
@@ -45,10 +43,6 @@
                 <td><?= h($internshipEnvironment->region) ?></td>
             </tr>
             <tr>
-                <th scope="row"><?= __('Employer') ?></th>
-                <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->title, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
-            </tr>
-            <tr>
                 <th scope="row"><?= __('Establishment type') ?></th>
                 <td><?= h($internshipEnvironment->establishment_type->type) ?></td>
             </tr>
@@ -62,6 +56,11 @@
             <tr>
                 <th scope="row"><?= __('Id') ?></th>
                 <td><?= $this->Number->format($internshipEnvironment->id) ?></td>
+            </tr>
+
+            <tr>
+                <th scope="row"><?= __('Employer') ?></th>
+                <td><?= $internshipEnvironment->has('employer') ? $this->Html->link($internshipEnvironment->employer->title, ['controller' => 'Employers', 'action' => 'view', $internshipEnvironment->employer->id]) : '' ?></td>
             </tr>
 
             <tr>
@@ -81,10 +80,6 @@
         </table>
 
         <div class="related">
-
-            <h4><?= __('Establishment type') ?></h4>
-            <?= h('• ' . $internshipEnvironment->establishment_type->type) ?>
-            <br/>
 
             <h4><?= __('Customer types') ?></h4>
 

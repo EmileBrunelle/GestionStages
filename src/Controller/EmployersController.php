@@ -45,6 +45,10 @@ class EmployersController extends AppController
                 return true;
             }
 
+            if (isset($user['role']) && $user['role'] === 'student') {
+                return false;
+            }
+
             if (isset($user['role']) && $user['role'] === 'employer') {
                 $id = $this->request->getParam('pass.0');
                 if (!$id) {
