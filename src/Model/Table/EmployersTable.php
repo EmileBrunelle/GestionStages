@@ -121,7 +121,7 @@ class EmployersTable extends Table
             ->notEmpty('email');
 
         $validator
-            ->scalar('phone')
+            ->integer('phone')
             ->maxLength('phone', 10)
             ->notEmpty('phone');
 

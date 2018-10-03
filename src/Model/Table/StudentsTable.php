@@ -77,7 +77,7 @@ class StudentsTable extends Table
             ->notEmpty('first_name');
 
         $validator
-            ->scalar('phone')
+            ->integer('phone')
             ->minLength('phone', 10)
             ->maxLength('phone', 10)
             ->requirePresence('phone', 'create')
