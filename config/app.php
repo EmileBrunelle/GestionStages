@@ -200,7 +200,7 @@ return [
             /*
              * The following keys are used in SMTP transports:
              */
-            'host' => 'localhost',
+            'host' => 'mail.stage123.ca',
             'port' => 25,
             'timeout' => 30,
             'username' => null,
@@ -256,7 +256,7 @@ return [
             //'port' => 'non_standard_port_number',
             // 'username' => 'root',
             // 'password' => 'mysql',
-            'database' => ROOT . DS . 'bd' . DS . 'default.db',
+            'database' => ROOT . DS . 'bd' . DS . 'default.sqlite',
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */

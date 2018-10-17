@@ -180,4 +180,8 @@ class StudentsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function send($id = null) {
+        $student = $this->Students->get($id);
+    }
 }
