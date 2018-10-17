@@ -33,7 +33,9 @@ class InternshipsController extends AppController
                 $iduser = $this->Auth->user('id');
 
                 if ($roleuser === 'employer'){
-                    $employer = $this->Internships->InternshipEnvironments->Employers->findByIdUser($iduser)->first();
+                    $internship = $this->Internships->findById($iduser)->first();
+                    $internshipEnvironment = $this->Internships->InternshipEnvironments->findById($internship['environment_id'])->first();
+                    $employer = $this->Internships->InternshipEnvironments->Employers->findById($internshipEnvironment['employer_id'])->first();
 
                     if ($employer != null){
                         return true;
@@ -70,7 +72,9 @@ class InternshipsController extends AppController
                 if (!$id) {
                     return false;
                 }
-                $employer = $this->Internships->InternshipEnvironments->Employers->findById($id)->first();
+                $internship = $this->Internships->findById($id)->first();
+                $internshipEnvironment = $this->Internships->InternshipEnvironments->findById($internship['environment_id'])->first();
+                $employer = $this->Internships->InternshipEnvironments->Employers->findById($internshipEnvironment['employer_id'])->first();
                 return $employer->id_user === $user['id'];
             }
         }
@@ -89,7 +93,9 @@ class InternshipsController extends AppController
                 if (!$id) {
                     return false;
                 }
-                $employer = $this->Internships->InternshipEnvironments->Employers->findById($id)->first();
+                $internship = $this->Internships->findById($id)->first();
+                $internshipEnvironment = $this->Internships->InternshipEnvironments->findById($internship['environment_id'])->first();
+                $employer = $this->Internships->InternshipEnvironments->Employers->findById($internshipEnvironment['employer_id'])->first();
                 return $employer->id_user === $user['id'];
             }
         }

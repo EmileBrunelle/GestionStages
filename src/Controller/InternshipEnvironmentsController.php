@@ -53,7 +53,8 @@ class InternshipEnvironmentsController extends AppController
                 if (!$id) {
                     return false;
                 }
-                $employer = $this->InternshipEnvironments->Employers->findById($id)->first();
+                $internshipEnvironment = $this->InternshipEnvironments->findById($id)->first();
+                $employer = $this->InternshipEnvironments->Employers->findById($internshipEnvironment['employer_id'])->first();
                 return $employer->id_user === $user['id'];
             }
         }
@@ -72,7 +73,8 @@ class InternshipEnvironmentsController extends AppController
                 if (!$id) {
                     return false;
                 }
-                $employer = $this->InternshipEnvironments->Employers->findById($id)->first();
+                $internshipEnvironment = $this->InternshipEnvironments->findById($id)->first();
+                $employer = $this->InternshipEnvironments->Employers->findById($internshipEnvironment['employer_id'])->first();
                 return $employer->id_user === $user['id'];
             }
         }
