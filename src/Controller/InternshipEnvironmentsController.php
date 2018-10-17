@@ -38,7 +38,6 @@ class InternshipEnvironmentsController extends AppController
             }
         }
 
-        
         if (in_array($action, ['view'])) {
             if (isset($user['role']) && $user['role'] === 'admin') {
                 return true;
