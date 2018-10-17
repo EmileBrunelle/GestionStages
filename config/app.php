@@ -256,7 +256,7 @@ return [
             //'port' => 'non_standard_port_number',
             // 'username' => 'root',
             // 'password' => 'mysql',
-            'database' => ROOT . DS . 'bd' . DS . 'default.sqlite',
+            'database' => ROOT . DS . 'bd' . DS . 'default.db',
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
@@ -293,20 +293,21 @@ return [
          */
         'test' => [
             'className' => 'Cake\Database\Connection',
-            'driver' => 'Cake\Database\Driver\Mysql',
+            'driver' => 'Cake\Database\Driver\Sqlite',
             'persistent' => false,
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'my_app',
+            'username' => 'root',
+            'password' => '',
+            'database' => ROOT . DS . 'db' . DS . 'tests.db',
+            /*
+             * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
+             */
             //'encoding' => 'utf8mb4',
             'timezone' => 'UTC',
+            'flags' => [],
             'cacheMetadata' => true,
-            'quoteIdentifiers' => false,
             'log' => false,
-            //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
-            'url' => env('DATABASE_TEST_URL', null),
         ],
     ],
 
