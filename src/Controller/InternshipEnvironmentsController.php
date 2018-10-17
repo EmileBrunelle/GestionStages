@@ -23,8 +23,7 @@ class InternshipEnvironmentsController extends AppController
         if ($user['role'])
         $action = $this->request->getParam('action');
 
-
-
+        
         if (in_array($action, ['add'])) {
             if (isset($user['role']) && $user['role'] === 'admin') {
                 return true;
@@ -39,6 +38,7 @@ class InternshipEnvironmentsController extends AppController
             }
         }
 
+        
         if (in_array($action, ['view'])) {
             if (isset($user['role']) && $user['role'] === 'admin') {
                 return true;
