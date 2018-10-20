@@ -32,8 +32,6 @@ use Phinx\Db\Action\AddColumn;
 use Phinx\Db\Action\AddForeignKey;
 use Phinx\Db\Action\AddIndex;
 use Phinx\Db\Action\ChangeColumn;
-use Phinx\Db\Action\ChangeComment;
-use Phinx\Db\Action\ChangePrimaryKey;
 use Phinx\Db\Action\DropForeignKey;
 use Phinx\Db\Action\DropIndex;
 use Phinx\Db\Action\DropTable;
@@ -82,40 +80,6 @@ class TablePrefixAdapter extends AdapterWrapper implements DirectActionInterface
             $table->getOptions()
         );
         parent::createTable($adapterTable, $columns, $indexes);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function changePrimaryKey(Table $table, $newColumns)
-    {
-        $adapter = $this->getAdapter();
-        if (!$adapter instanceof DirectActionInterface) {
-            throw new \BadMethodCallException('The underlying adapter does not implement DirectActionInterface');
-        }
-
-        $adapterTable = new Table(
-            $this->getAdapterTableName($table->getName()),
-            $table->getOptions()
-        );
-        $adapter->changePrimaryKey($adapterTable, $newColumns);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function changeComment(Table $table, $newComment)
-    {
-        $adapter = $this->getAdapter();
-        if (!$adapter instanceof DirectActionInterface) {
-            throw new \BadMethodCallException('The underlying adapter does not implement DirectActionInterface');
-        }
-
-        $adapterTable = new Table(
-            $this->getAdapterTableName($table->getName()),
-            $table->getOptions()
-        );
-        $adapter->changeComment($adapterTable, $newComment);
     }
 
     /**
@@ -290,16 +254,6 @@ class TablePrefixAdapter extends AdapterWrapper implements DirectActionInterface
     /**
      * {@inheritdoc}
      */
-    public function hasPrimaryKey($tableName, $columns, $constraint = null)
-    {
-        $adapterTableName = $this->getAdapterTableName($tableName);
-
-        return parent::hasPrimaryKey($adapterTableName, $columns, $constraint);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function hasForeignKey($tableName, $columns, $constraint = null)
     {
         $adapterTableName = $this->getAdapterTableName($tableName);
@@ -437,14 +391,6 @@ class TablePrefixAdapter extends AdapterWrapper implements DirectActionInterface
 
                 case ($action instanceof RenameTable):
                     $actions[$k] = new RenameTable($adapterTable, $action->getNewName());
-                    break;
-
-                case ($action instanceof ChangePrimaryKey):
-                    $actions[$k] = new ChangePrimaryKey($adapterTable, $action->getNewColumns());
-                    break;
-
-                case ($action instanceof ChangeComment):
-                    $actions[$k] = new ChangeComment($adapterTable, $action->getNewComment());
                     break;
 
                 default:

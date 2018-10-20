@@ -27,27 +27,27 @@ use Cake\Http\ServerRequest;
  *
  * ### Using Basic auth
  *
- * Load `AuthComponent` in your controller's `initialize()` and add 'Basic' in 'authenticate' key
+ * In your controller's components array, add auth + the required config
  * ```
- *  $this->loadComponent('Auth', [
- *      'authenticate' => ['Basic']
- *      'storage' => 'Memory',
- *      'unauthorizedRedirect' => false,
- *  ]);
+ *  public $components = [
+ *      'Auth' => [
+ *          'authenticate' => ['Basic']
+ *      ]
+ *  ];
  * ```
  *
- * You should set `storage` to `Memory` to prevent CakePHP from sending a
- * session cookie to the client.
+ * You should also set `AuthComponent::$sessionKey = false;` in your AppController's
+ * beforeFilter() to prevent CakePHP from sending a session cookie to the client.
  *
- * You should set `unauthorizedRedirect` to `false`. This causes `AuthComponent` to
- * throw a `ForbiddenException` exception instead of redirecting to another page.
- *
- * Since HTTP Basic Authentication is stateless you don't need call `setUser()`
+ * Since HTTP Basic Authentication is stateless you don't need a login() action
  * in your controller. The user credentials will be checked on each request. If
  * valid credentials are not provided, required authentication headers will be sent
  * by this authentication provider which triggers the login dialog in the browser/client.
  *
- * @see https://book.cakephp.org/3.0/en/controllers/components/authentication.html
+ * You may also want to use `$this->Auth->unauthorizedRedirect = false;`.
+ * By default, unauthorized users are redirected to the referrer URL,
+ * `AuthComponent::$loginAction`, or '/'. If unauthorizedRedirect is set to
+ * false, a ForbiddenException exception is thrown instead of redirecting.
  */
 class BasicAuthenticate extends BaseAuthenticate
 {

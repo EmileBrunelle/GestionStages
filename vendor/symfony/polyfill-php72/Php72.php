@@ -121,8 +121,7 @@ final class Php72
         return !$stdin
             && (false !== getenv('ANSICON')
             || 'ON' === getenv('ConEmuANSI')
-            || 'xterm' === getenv('TERM')
-            || 'Hyper' === getenv('TERM_PROGRAM'));
+            || 'xterm' === getenv('TERM'));
     }
 
     public static function stream_isatty($stream)

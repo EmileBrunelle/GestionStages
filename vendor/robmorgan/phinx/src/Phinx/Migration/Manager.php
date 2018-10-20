@@ -387,7 +387,6 @@ class Manager
         $this->getEnvironment($name)->executeMigration($migration, $direction, $fake);
         $end = microtime(true);
 
-        $migration->postFlightCheck($direction);
         $this->getOutput()->writeln(
             ' ==' .
             ' <info>' . $migration->getVersion() . ' ' . $migration->getName() . ':</info>' .
@@ -687,7 +686,7 @@ class Manager
                 $this->getOutput()->writeln(
                     array_map(
                         function ($phpFile) {
-                            return "    <info>{$phpFile}</info>";
+                            return '    ' . $phpFile;
                         },
                         $phpFiles
                     )
@@ -702,7 +701,15 @@ class Manager
             foreach ($phpFiles as $filePath) {
                 if (Util::isValidMigrationFileName(basename($filePath))) {
                     if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-                        $this->getOutput()->writeln("Valid migration file <info>{$filePath}</info>.");
+                        $this->getOutput()->writeln('Valid migration file');
+                        $this->getOutput()->writeln(
+                            array_map(
+                                function ($phpFile) {
+                                    return '    ' . $phpFile;
+                                },
+                                $phpFiles
+                            )
+                        );
                     }
 
                     $version = Util::getVersionFromFileName(basename($filePath));
@@ -728,7 +735,7 @@ class Manager
                     $fileNames[$class] = basename($filePath);
 
                     if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-                        $this->getOutput()->writeln("Loading class <info>$class</info> from <info>$filePath</info>.");
+                        $this->getOutput()->writeln("Loading class $class from $filePath");
                     }
 
                     // load the migration file
@@ -746,7 +753,7 @@ class Manager
                     }
 
                     if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-                        $this->getOutput()->writeln("Running <info>$class</info>.");
+                        $this->getOutput()->writeln("Running $class");
                     }
 
                     // instantiate it
@@ -763,7 +770,15 @@ class Manager
                     $versions[$version] = $migration;
                 } else {
                     if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-                        $this->getOutput()->writeln("Invalid migration file <error>{$filePath}</error>.");
+                        $this->getOutput()->writeln('Invalid migration file');
+                        $this->getOutput()->writeln(
+                            array_map(
+                                function ($phpFile) {
+                                    return '  ' . $phpFile;
+                                },
+                                $phpFiles
+                            )
+                        );
                     }
                 }
             }
