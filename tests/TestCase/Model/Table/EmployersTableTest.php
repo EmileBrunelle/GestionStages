@@ -40,6 +40,36 @@ class EmployersTableTest extends TestCase
         $this->Employers = TableRegistry::getTableLocator()->get('Employers', $config);
     }
 
+    public function testFindById() {
+        $query = $this->Employers->findById('1');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $result = $query->hydrate(false)->toArray();
+        $expected = [
+            [
+                'id' => 1,
+                'id_user' => 1,
+                'prefix' => 'Mr',
+                'last_name' => 'Bouchard',
+                'first_name' => 'Louis',
+                'title' => 'Boss',
+                'location' => 'Head office',
+                'address' => '402 des Rochers',
+                'city' => 'Laval',
+                'province' => 'Quebec',
+                'postal_code' => 'J5E4L1',
+                'email' => 'email@email.com',
+                'phone' => '4505959595',
+                'extension' => '4224',
+                'cellphone' => '5148765432',
+                'fax' => '4505959595',
+                'created' => '2018-09-19 20:29:49',
+                'modified' => '2018-09-19 20:29:49'
+            ],
+        ];
+
+        $this->assertEquals($expected, $result);
+    }
+
     /**
      * tearDown method
      *
