@@ -79,7 +79,7 @@ abstract class ServerRequestFactory extends BaseFactory
      * Build a UriInterface object.
      *
      * Add in some CakePHP specific logic/properties that help
-     * preserve backwards compatibility.
+     * perserve backwards compatibility.
      *
      * @param array $server The server parameters.
      * @param array $headers The normalized headers
@@ -130,7 +130,7 @@ abstract class ServerRequestFactory extends BaseFactory
         if (empty($path) || $path === '/' || $path === '//' || $path === '/index.php') {
             $path = '/';
         }
-        $endsWithIndex = '/' . (Configure::read('App.webroot') ?: 'webroot') . '/index.php';
+        $endsWithIndex = '/webroot/index.php';
         $endsWithLength = strlen($endsWithIndex);
         if (strlen($path) >= $endsWithLength &&
             substr($path, -$endsWithLength) === $endsWithIndex

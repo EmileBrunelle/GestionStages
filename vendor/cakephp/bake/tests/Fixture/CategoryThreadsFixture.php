@@ -31,8 +31,8 @@ class CategoryThreadsFixture extends TestFixture
         'id' => ['type' => 'integer'],
         'parent_id' => ['type' => 'integer'],
         'name' => ['type' => 'string', 'null' => false],
-        'lft' => ['type' => 'integer', 'unsigned' => true],
-        'rght' => ['type' => 'integer', 'unsigned' => true],
+        'lft' => ['type' => 'integer'],
+        'rght' => ['type' => 'integer'],
         'created' => 'datetime',
         'updated' => 'datetime',
         '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]

@@ -413,7 +413,7 @@ class FileEngine extends CacheEngine
     }
 
     /**
-     * Determine if cache directory is writable
+     * Determine is cache directory is writable
      *
      * @return bool
      */
