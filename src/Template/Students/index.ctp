@@ -49,7 +49,7 @@
                     <?= $this->Html->link(__('View'), ['action' => 'view', $student->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $student->id], ['confirm' => __('Are you sure you want to delete # {0}?', $student->id)]) ?>
-                    <?= $this->Html->link(__('Send Email'), ['action' => 'send', $student->id]) ?>
+                    <?= $this->Html->postLink(__('Send Email'), ['action' => 'sendEmail', $student->id], ['confirm' => __('Are you sure you want to send an email to # {0} {1}?', $student->first_name, $student->last_name)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

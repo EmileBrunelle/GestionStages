@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Mailer\Email;
 
 /**
  * Students Controller
@@ -181,7 +182,15 @@ class StudentsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function send($id = null) {
+    public function sendEmail($id = null, $employer) {
         $student = $this->Students->get($id);
+        $email = new Email();
+        $email
+            ->setSubject(__('{0} wants to meet you', $employer->name))
+            ->setEmailFormat('both')
+            ->addTo($student->email)
+            ->setFrom($employer->email)
+            ->message(__('We looked at your candidacy and were interested in meeting you. If you are interested as well, please reply to this email and we\'ll arrange a meeting.'))
+            ->send();
     }
 }
