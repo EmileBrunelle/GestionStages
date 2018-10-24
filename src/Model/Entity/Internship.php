@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $MODIFIED
  *
  * @property \App\Model\Entity\InternshipEnvironment $internship_environment
+ * @property \App\Model\Entity\Student[] $students
  */
 class Internship extends Entity
 {
@@ -31,6 +32,7 @@ class Internship extends Entity
         'position' => true,
         'description' => true,
         'environment_id' => true,
-        'internship_environment' => true
+        'internship_environment' => true,
+        'students' => true
     ];
 }

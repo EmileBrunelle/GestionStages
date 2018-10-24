@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Internships Model
  *
  * @property \App\Model\Table\InternshipEnvironmentsTable|\Cake\ORM\Association\BelongsTo $InternshipEnvironments
+ * @property \App\Model\Table\StudentsTable|\Cake\ORM\Association\BelongsToMany $students
  *
  * @method \App\Model\Entity\Internship get($primaryKey, $options = [])
  * @method \App\Model\Entity\Internship newEntity($data = null, array $options = [])
@@ -39,6 +40,11 @@ class InternshipsTable extends Table
 
         $this->belongsTo('InternshipEnvironments', [
             'foreignKey' => 'environment_id'
+        ]);
+        $this->belongsToMany('Students', [
+            'foreignKey' => 'internship_id',
+            'targetForeignKey' => 'student_id',
+            'joinTable' => 'internships_students'
         ]);
     }
 
