@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Students Model
  *
+ * @property \App\Model\Table\InternshipsTable|\Cake\ORM\Association\BelongsToMany $interships
+ *
  * @method \App\Model\Entity\Student get($primaryKey, $options = [])
  * @method \App\Model\Entity\Student newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Student[] newEntities(array $data, array $options = [])
@@ -38,6 +40,12 @@ class StudentsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsToMany('Internships', [
+            'foreignKey' => 'student_id',
+            'targetForeignKey' => 'internship_id',
+            'joinTable' => 'internships_students'
+        ]);
     }
 
     /**

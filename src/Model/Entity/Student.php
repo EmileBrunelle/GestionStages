@@ -18,6 +18,8 @@ use Cake\ORM\Entity;
  * @property int $active
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
+ *
+ * @property \App\Model\Entity\Internship[] $Internships
  */
 class Student extends Entity
 {
@@ -42,6 +44,7 @@ class Student extends Entity
         'note' => true,
         'active' => true,
         'created' => true,
-        'modified' => true
+        'modified' => true,
+        'internships' => true
     ];
 }
