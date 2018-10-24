@@ -21,11 +21,11 @@ namespace Composer\XdebugHandler;
 class Process
 {
     /**
-     * Returns an array of parameters, including a color option if required
+     * Returns the process arguments, appending a color option if required
      *
      * A color option is needed because child process output is piped.
      *
-     * @param array $args The script parameters
+     * @param array $args Command line arguments
      * @param string $colorOption The long option to force color output
      *
      * @return array
@@ -39,8 +39,8 @@ class Process
         }
 
         if (isset($matches[2])) {
-            // Handle --color(s)= options
-            if (false !== ($index = array_search($matches[2].'auto', $args))) {
+            // Handle --color(s)= options. Note args[0] is the script name
+            if ($index = array_search($matches[2].'auto', $args)) {
                 $args[$index] = $colorOption;
                 return $args;
             } elseif (preg_grep('/^'.$matches[2].'/', $args)) {
@@ -50,15 +50,10 @@ class Process
             return $args;
         }
 
-        if (false !== ($index = array_search('--', $args))) {
-            // Position option before double-dash delimiter
-            array_splice($args, $index, 0, $colorOption);
-        } else {
-            $args[] = $colorOption;
-        }
-
+        $args[] = $colorOption;
         return $args;
     }
+
 
     /**
      * Escapes a string to be used as a shell argument.
@@ -75,11 +70,10 @@ class Process
     public static function escape($arg, $meta = true, $module = false)
     {
         if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
-            return "'".str_replace("'", "'\\''", $arg)."'";
+            return escapeshellarg($arg);
         }
 
         $quote = strpbrk($arg, " \t") !== false || $arg === '';
-
         $arg = preg_replace('/(\\\\*)"/', '$1$1\\"', $arg, -1, $dquotes);
 
         if ($meta) {
@@ -93,7 +87,8 @@ class Process
         }
 
         if ($quote) {
-            $arg = '"'.preg_replace('/(\\\\*)$/', '$1$1', $arg).'"';
+            $arg = preg_replace('/(\\\\*)$/', '$1$1', $arg);
+            $arg = '"'.$arg.'"';
         }
 
         if ($meta) {

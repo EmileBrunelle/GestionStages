@@ -22,7 +22,6 @@ class XdebugHandler
     const SUFFIX_INIS = '_ORIGINAL_INIS';
     const RESTART_ID = 'internal';
     const RESTART_SETTINGS = 'XDEBUG_HANDLER_SETTINGS';
-    const DEBUG = 'XDEBUG_HANDLER_DEBUG';
 
     /** @var string|null */
     protected $tmpIni;
@@ -33,11 +32,9 @@ class XdebugHandler
 
     private $cli;
     private $colorOption;
-    private $debug;
     private $envAllowXdebug;
     private $envOriginalInis;
     private $loaded;
-    private $persistent;
     private $script;
     /** @var Status|null */
     private $statusWriter;
@@ -64,67 +61,52 @@ class XdebugHandler
         $this->envOriginalInis = self::$name.self::SUFFIX_INIS;
 
         $this->colorOption = $colorOption;
+        $this->cli = PHP_SAPI === 'cli';
 
         if (extension_loaded('xdebug')) {
             $ext = new \ReflectionExtension('xdebug');
             $this->loaded = $ext->getVersion() ?: 'unknown';
         }
-
-        if ($this->cli = PHP_SAPI === 'cli') {
-            $this->debug = getenv(self::DEBUG);
-        }
-
-        $this->statusWriter = new Status($this->envAllowXdebug, (bool) $this->debug);
     }
 
     /**
      * Activates status message output to a PSR3 logger
      *
      * @param LoggerInterface $logger
-     *
-     * @return $this
      */
     public function setLogger(LoggerInterface $logger)
     {
-        $this->statusWriter->setLogger($logger);
-        return $this;
+        $this->statusWriter = new Status($logger, $this->envAllowXdebug);
     }
 
     /**
-     * Sets the main script location if it cannot be called from argv
+     * Sets the main script location if the working directory has changed
      *
      * @param string $script
-     *
-     * @return $this
      */
     public function setMainScript($script)
     {
         $this->script = $script;
-        return $this;
-    }
-
-    /**
-     * Persist the settings to keep xdebug out of sub-processes
-     *
-     * @return $this
-     */
-    public function setPersistent()
-    {
-        $this->persistent = true;
-        return $this;
     }
 
     /**
      * Checks if xdebug is loaded and the process needs to be restarted
      *
+     * If so, then a tmp ini is created with the xdebug ini entry commented out.
+     * If scanned inis have been loaded, these are combined into the tmp ini
+     * and PHP_INI_SCAN_DIR is set to an empty value. Current ini locations are
+     * are stored in MYAPP_ORIGINAL_INIS (where 'MYAPP' is the prefix passed in the
+     * constructor) for use in the restarted process.
+     *
      * This behaviour can be disabled by setting the MYAPP_ALLOW_XDEBUG
-     * environment variable to 1. This variable is used internally so that
-     * restarted process is created only once.
+     * environment variable to 1. This variable is used internally so that the
+     * restarted process is created only once and PHP_INI_SCAN_DIR can be
+     * restored to its original value.
      */
     public function check()
     {
         $this->notify(Status::CHECK, $this->loaded);
-        $envArgs = explode('|', (string) getenv($this->envAllowXdebug));
+        $envArgs = explode('|', (string) getenv($this->envAllowXdebug), 4);
 
         if (empty($envArgs[0]) && $this->requiresRestart((bool) $this->loaded)) {
             // Restart required
@@ -138,20 +120,31 @@ class XdebugHandler
             return;
         }
 
-        if (self::RESTART_ID === $envArgs[0] && count($envArgs) === 5) {
-            // Restarting, so unset environment variable and use saved values
+        if (self::RESTART_ID === $envArgs[0] && count($envArgs) >= 3) {
+            // Restarting, so unset environment variable and extract saved values
             $this->notify(Status::RESTARTED);
 
             Process::setEnv($this->envAllowXdebug);
             self::$inRestart = true;
+            $version = $envArgs[1];
+            $scannedInis = (bool) $envArgs[2];
 
             if (!$this->loaded) {
                 // Skipped version is only set if xdebug is not loaded
-                self::$skipped = $envArgs[1];
+                self::$skipped = $version;
+            }
+
+            if ($scannedInis) {
+                // Scan dir will have been changed, so restore it
+                if (isset($envArgs[3])) {
+                    Process::setEnv('PHP_INI_SCAN_DIR', $envArgs[3]);
+                } else {
+                    Process::setEnv('PHP_INI_SCAN_DIR');
+                }
             }
 
             // Put restart settings in the environment
-            $this->setEnvRestartSettings($envArgs);
+            $this->setEnvRestartSettings($scannedInis);
             return;
         }
 
@@ -200,21 +193,23 @@ class XdebugHandler
      */
     public static function getRestartSettings()
     {
-        $envArgs = explode('|', (string) getenv(self::RESTART_SETTINGS));
+        $envArgs = explode('|', (string) getenv(self::RESTART_SETTINGS), 5);
 
-        if (count($envArgs) !== 6
-            || (!self::$inRestart && php_ini_loaded_file() !== $envArgs[0])) {
-            return;
+        if (count($envArgs) === 5) {
+            if (!self::$inRestart
+                && php_ini_loaded_file() !== $envArgs[0]
+                && php_ini_scanned_files()) {
+                return;
+            }
+
+            return array(
+                'tmpIni' => $envArgs[0],
+                'scannedInis' => (bool) $envArgs[1],
+                'scanDir' => '!' !== $envArgs[2] ? $envArgs[2] : false,
+                'inis' => explode(',', $envArgs[3]),
+                'skipped' => $envArgs[4],
+            );
         }
-
-        return array(
-            'tmpIni' => $envArgs[0],
-            'scannedInis' => (bool) $envArgs[1],
-            'scanDir' => '*' === $envArgs[2] ? false : $envArgs[2],
-            'phprc' => '*' === $envArgs[3] ? false : $envArgs[3],
-            'inis' => explode(PATH_SEPARATOR, $envArgs[4]),
-            'skipped' => $envArgs[5],
-        );
     }
 
     /**
@@ -259,9 +254,7 @@ class XdebugHandler
         passthru($command, $exitCode);
         $this->notify(Status::INFO, 'Restarted process exited '.$exitCode);
 
-        if ($this->debug === '2') {
-            $this->notify(Status::INFO, 'Temp ini saved: '.$this->tmpIni);
-        } else {
+        if (!empty($this->tmpIni)) {
             @unlink($this->tmpIni);
         }
 
@@ -283,18 +276,17 @@ class XdebugHandler
         $error = '';
         $iniFiles = self::getAllIniFiles();
         $scannedInis = count($iniFiles) > 1;
+        $scanDir = getenv('PHP_INI_SCAN_DIR');
 
         if (!$this->cli) {
             $error = 'Unsupported SAPI: '.PHP_SAPI;
         } elseif (!defined('PHP_BINARY')) {
             $error = 'PHP version is too old: '.PHP_VERSION;
-        } elseif (!$this->checkScanDirConfig()) {
-            $error = 'PHP version does not report scanned inis: '.PHP_VERSION;
         } elseif (!$this->checkMainScript()) {
             $error = 'Unable to access main script: '.$this->script;
         } elseif (!$this->writeTmpIni($iniFiles)) {
             $error = 'Unable to create temporary ini file';
-        } elseif (!$this->setEnvironment($scannedInis, $iniFiles)) {
+        } elseif (!$this->setEnvironment($scannedInis, $scanDir, $iniFiles)) {
             $error = 'Unable to set environment variables';
         }
 
@@ -307,6 +299,8 @@ class XdebugHandler
 
     /**
      * Returns true if the tmp ini file was written
+     *
+     * The filename is passed as the -c option when the process restarts.
      *
      * @param array $iniFiles All ini files used in the current process
      *
@@ -331,11 +325,9 @@ class XdebugHandler
             $content .= $data.PHP_EOL;
         }
 
-        // Merge loaded settings into our ini content, if it is valid
-        if ($config = parse_ini_string($content)) {
-            $loaded = ini_get_all(null, false);
-            $content .= $this->mergeLoadedConfig($loaded, $config);
-        }
+        $loaded = ini_get_all(null, false);
+        $config = parse_ini_string($content);
+        $content .= $this->mergeLoadedConfig($loaded, $config);
 
         // Work-around for https://bugs.php.net/bug.php?id=75932
         $content .= 'opcache.enable_cli=0'.PHP_EOL;
@@ -350,19 +342,14 @@ class XdebugHandler
      */
     private function getCommand()
     {
-        $php = array(PHP_BINARY);
         $args = array_slice($_SERVER['argv'], 1);
-
-        if (!$this->persistent) {
-            // Use command-line options
-            array_push($php, '-n', '-c', $this->tmpIni);
-        }
 
         if (defined('STDOUT') && Process::supportsColor(STDOUT)) {
             $args = Process::addColorOption($args, $this->colorOption);
         }
 
-        $args = array_merge($php, array($this->script), $args);
+        $executable = array(PHP_BINARY, '-c', $this->tmpIni, $this->script);
+        $args = array_merge($executable, $args);
 
         $cmd = Process::escape(array_shift($args), true, true);
         foreach ($args as $arg) {
@@ -378,25 +365,21 @@ class XdebugHandler
      * No need to update $_SERVER since this is set in the restarted process.
      *
      * @param bool $scannedInis Whether there were scanned ini files
+     * @param false|string $scanDir PHP_INI_SCAN_DIR environment variable
      * @param array $iniFiles All ini files used in the current process
      *
      * @return bool
      */
-    private function setEnvironment($scannedInis, array $iniFiles)
+    private function setEnvironment($scannedInis, $scanDir, array $iniFiles)
     {
-        $scanDir = getenv('PHP_INI_SCAN_DIR');
-        $phprc = getenv('PHPRC');
+        // Set scan dir env to an empty value if there were scanned ini files
+        if ($scannedInis && !putenv('PHP_INI_SCAN_DIR=')) {
+            return false;
+        }
 
         // Make original inis available to restarted process
         if (!putenv($this->envOriginalInis.'='.implode(PATH_SEPARATOR, $iniFiles))) {
             return false;
-        }
-
-        if ($this->persistent) {
-            // Use the environment to persist the settings
-            if (!putenv('PHP_INI_SCAN_DIR=') || !putenv('PHPRC='.$this->tmpIni)) {
-                return false;
-            }
         }
 
         // Flag restarted process and save values for it to use
@@ -404,9 +387,12 @@ class XdebugHandler
             self::RESTART_ID,
             $this->loaded,
             (int) $scannedInis,
-            false === $scanDir ? '*' : $scanDir,
-            false === $phprc ? '*' : $phprc,
         );
+
+        if ($scannedInis && false !== $scanDir) {
+            // Only add original scan dir if it was set
+            $envArgs[] = $scanDir;
+        }
 
         return putenv($this->envAllowXdebug.'='.implode('|', $envArgs));
     }
@@ -419,11 +405,17 @@ class XdebugHandler
      */
     private function notify($op, $data = null)
     {
-        $this->statusWriter->report($op, $data);
+        if ($this->statusWriter) {
+            $this->statusWriter->report($op, $data);
+        }
     }
 
     /**
-     * Returns default, changed and command-line ini settings
+     * Returns default or changed settings for the tmp ini
+     *
+     * Ini settings can be passed on the command line using the -d option. To
+     * preserve these, all loaded settings that are either not present or
+     * different from those in the ini files are added at the end of the tmp ini.
      *
      * @param array $loadedConfig All current ini settings
      * @param array $iniConfig Settings from user ini files
@@ -435,16 +427,17 @@ class XdebugHandler
         $content = '';
 
         foreach ($loadedConfig as $name => $value) {
-            // Value will either be null, string or array (HHVM only)
-            if (!is_string($value)
-                || strpos($name, 'xdebug') === 0
-                || $name === 'apc.mmap_file_mask') {
+            // Values will either be null, string or array (HHVM only)
+            if (!is_string($value) || strpos($name, 'xdebug') === 0) {
                 continue;
             }
 
             if (!isset($iniConfig[$name]) || $iniConfig[$name] !== $value) {
-                // Double-quote escape each value
-                $content .= $name.'="'.addcslashes($value, '\\"').'"'.PHP_EOL;
+                // Based on main -d option handling in php-src/sapi/cli/php_cli.c
+                if ($value && !ctype_alnum($value)) {
+                    $value = '"'.str_replace('"', '\\"', $value).'"';
+                }
+                $content .= $name.'='.$value.PHP_EOL;
             }
         }
 
@@ -458,21 +451,23 @@ class XdebugHandler
      */
     private function checkMainScript()
     {
-        if (null !== $this->script) {
-            // Allow an application to set -- for standard input
-            return file_exists($this->script) || '--' === $this->script;
+        if (null === $this->script) {
+            $this->script = $_SERVER['argv'][0];
         }
 
-        if (file_exists($this->script = $_SERVER['argv'][0])) {
+        if (file_exists($this->script)) {
             return true;
         }
 
-        // Use a backtrace to resolve Phar and chdir issues
-        $options = PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false;
-        $trace = debug_backtrace($options);
+        // Phar::interceptFileFuncs causes issues
+        if ($archive = \Phar::running(false)) {
+            $this->script = $archive;
+            return true;
+        }
 
-        if (($main = end($trace)) && isset($main['file'])) {
-            return file_exists($this->script = $main['file']);
+        if (in_array($this->script, array('php://stdin', 'Standard input code'))) {
+            $this->script === '--';
+            return true;
         }
 
         return false;
@@ -481,16 +476,17 @@ class XdebugHandler
     /**
      * Adds restart settings to the environment
      *
-     * @param string $envArgs
+     * @param bool $scannedInis
      */
-    private function setEnvRestartSettings($envArgs)
+    private function setEnvRestartSettings($scannedInis)
     {
+        $scanDir = getenv('PHP_INI_SCAN_DIR');
+
         $settings = array(
             php_ini_loaded_file(),
-            $envArgs[2],
-            $envArgs[3],
-            $envArgs[4],
-            getenv($this->envOriginalInis),
+            (int) $scannedInis,
+            false === $scanDir ? '!' : $scanDir,
+            implode(',', self::getAllIniFiles()),
             self::$skipped,
         );
 
@@ -504,28 +500,16 @@ class XdebugHandler
      */
     private function syncSettings(array $settings)
     {
+        if ($settings['scannedInis']) {
+            Process::setEnv('PHP_INI_SCAN_DIR', $settings['scanDir']);
+        }
+
         if (false === getenv($this->envOriginalInis)) {
             // Called by another app, so make original inis available
-            Process::setEnv($this->envOriginalInis, implode(PATH_SEPARATOR, $settings['inis']));
+            Process::setEnv($this->envOriginalInis, implode('|', $settings['inis']));
         }
 
         self::$skipped = $settings['skipped'];
         $this->notify(Status::INFO, 'Process called with existing restart settings');
-    }
-
-    /**
-     * Returns true if there are scanned inis and PHP is able to report them
-     *
-     * php_ini_scanned_files will fail when PHP_CONFIG_FILE_SCAN_DIR is empty.
-     * Fixed in 7.1.13 and 7.2.1
-     *
-     * @return bool
-     */
-    private function checkScanDirConfig()
-    {
-        return !(getenv('PHP_INI_SCAN_DIR')
-            && !PHP_CONFIG_FILE_SCAN_DIR
-            && (PHP_VERSION_ID < 70113
-            || PHP_VERSION_ID === 70200));
     }
 }

@@ -236,7 +236,7 @@ abstract class AdapterWrapper implements AdapterInterface, WrapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function toggleBreakpoint(MigrationInterface $migration)
     {
@@ -246,7 +246,7 @@ abstract class AdapterWrapper implements AdapterInterface, WrapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function resetAllBreakpoints()
     {
@@ -379,14 +379,6 @@ abstract class AdapterWrapper implements AdapterInterface, WrapperInterface
     public function hasIndexByName($tableName, $indexName)
     {
         return $this->getAdapter()->hasIndexByName($tableName, $indexName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasPrimaryKey($tableName, $columns, $constraint = null)
-    {
-        return $this->getAdapter()->hasPrimaryKey($tableName, $columns, $constraint);
     }
 
     /**

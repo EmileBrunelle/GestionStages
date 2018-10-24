@@ -11,6 +11,7 @@
 
 namespace Composer\XdebugHandler;
 
+use Composer\XdebugHandler\Process;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -29,7 +30,6 @@ class Status
     const RESTARTING = 'Restarting';
     const RESTARTED = 'Restarted';
 
-    private $debug;
     private $envAllowXdebug;
     private $loaded;
     private $logger;
@@ -38,25 +38,17 @@ class Status
     /**
      * Constructor
      *
+     * @param LoggerInterface $logger
      * @param string $envAllowXdebug Prefixed _ALLOW_XDEBUG name
-     * @param bool $debug Whether debug output is required
      */
-    public function __construct($envAllowXdebug, $debug)
+    public function __construct(LoggerInterface $logger, $envAllowXdebug)
     {
         $start = getenv(self::ENV_RESTART);
         Process::setEnv(self::ENV_RESTART);
         $this->time = $start ? round((microtime(true) - $start) * 1000) : 0;
 
-        $this->envAllowXdebug = $envAllowXdebug;
-        $this->debug = $debug && defined('STDERR');
-    }
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
         $this->logger = $logger;
+        $this->envAllowXdebug = $envAllowXdebug;
     }
 
     /**
@@ -67,26 +59,19 @@ class Status
      */
     public function report($op, $data)
     {
-        if ($this->logger || $this->debug) {
-            call_user_func(array($this, 'report'.$op), $data);
-        }
+        $func = array($this, 'report'.$op);
+        call_user_func($func, $data);
     }
 
     /**
-     * Outputs a status message
+     * Sends a status message to the logger
      *
      * @param string $text
      * @param string $level
      */
     private function output($text, $level = null)
     {
-        if ($this->logger) {
-            $this->logger->log($level ?: LogLevel::DEBUG, $text);
-        }
-
-        if ($this->debug) {
-            fwrite(STDERR, sprintf('xdebug-handler[%d] %s', getmypid(), $text.PHP_EOL));
-        }
+        $this->logger->log($level ?: LogLevel::DEBUG, $text);
     }
 
     private function reportCheck($loaded)

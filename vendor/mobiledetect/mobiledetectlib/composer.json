@@ -24,8 +24,5 @@
         "psr-0": {
             "Detection": "namespaced/"
         }
-    },
-    "archive": {
-      "exclude": ["docs", "examples", "export"]
     }
 }
