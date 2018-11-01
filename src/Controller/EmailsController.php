@@ -22,7 +22,7 @@ class EmailsController extends AppController{
         $query = TableRegistry::get('Students')->find();
 
         //Création du lien envoyé par courriel:
-        $link = "http://". $_SERVER['HTTP_HOST'].$this->request->webroot."internships/view/" . $id;
+        $link = "http://". $_SERVER['HTTP_HOST'].$this->request->getAttribute("webroot")."internships/view/" . $id;
 
         //Création du titre du message envoyé par courriel:
         $titre = 'Stage 123.ca - Ajout d\'un nouveau stage';
@@ -33,11 +33,11 @@ class EmailsController extends AppController{
 
         //Envoyer un courriel à chaque étudiant sur la plateforme:
         foreach ($query as $student) {
-            $email = new Email('default');
+            $email = new Email();
             $emailaddress = $student->email;
 
             if ($emailaddress){
-                $email->to($emailaddress)->subject($titre)->send($message);
+                $email->setTo($emailaddress)->setSubject($titre)->send($message);
             }
         }
 

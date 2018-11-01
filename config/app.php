@@ -1,4 +1,6 @@
 <?php
+use Cake\Mailer\Email;
+
 return [
     /**
      * Debug Level:
@@ -200,7 +202,7 @@ return [
             /*
              * The following keys are used in SMTP transports:
              */
-            'host' => 'mail.stage123.ca',
+            'host' => 'localhost',
             'port' => 25,
             'timeout' => 30,
             'username' => null,
@@ -209,6 +211,21 @@ return [
             'tls' => null,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
+        'smtp' => [
+            'host' => 'ssl://mail.stage123.ca',
+            'port' => 465,
+            'username' => 'info@stage123.ca',
+            'password' => 'Stage123',
+            'className' => 'Smtp',
+            'log' => true,
+            'context' => [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                ]
+            ]
+        ]
     ],
 
     /**
@@ -222,8 +239,8 @@ return [
      */
     'Email' => [
         'default' => [
-            'transport' => 'default',
-            'from' => 'you@localhost',
+            'transport' => 'smtp',
+            'from' => 'info@stage123.ca',
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
         ],
