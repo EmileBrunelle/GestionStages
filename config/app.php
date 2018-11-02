@@ -314,9 +314,9 @@ return [
             'persistent' => false,
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'root',
-            'password' => '',
-            'database' => ROOT . DS . 'db' . DS . 'tests.db',
+            //'username' => 'root',
+            //'password' => '',
+            'database' => ROOT . DS . 'bd' . DS . 'tests.sqlite',
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
