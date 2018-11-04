@@ -67,6 +67,10 @@ class InternshipsController extends AppController
                 return true;
             }
 
+            if (isset($user['role']) && $user['role'] === 'student') {
+                return true;
+            }
+
             if (isset($user['role']) && $user['role'] === 'employer') {
                 $id = $this->request->getParam('pass.0');
                 if (!$id) {
@@ -129,8 +133,12 @@ class InternshipsController extends AppController
     public function view($id = null)
     {
         $internship = $this->Internships->get($id, [
-            'contain' => ['InternshipEnvironments']
+            'contain' => ['InternshipEnvironments', 'Students']
         ]);
+
+        $user = $this->Auth->user();
+
+        $student = $this->Internships->students->findByUserId($user['id']);
 
         $this->set('internship', $internship);
 
@@ -138,7 +146,7 @@ class InternshipsController extends AppController
 
         $employer = $this->Internships->InternshipEnvironments->Employers->findById($eid)->first();
 
-        $this->set(compact('employer'));
+        $this->set(compact('employer', 'student'));
     }
 
     /**
