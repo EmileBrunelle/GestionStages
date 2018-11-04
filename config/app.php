@@ -1,4 +1,6 @@
 <?php
+use Cake\Mailer\Email;
+
 return [
     /**
      * Debug Level:
@@ -168,7 +170,7 @@ return [
      *   breathing room to complete logging or error handling.
      */
     'Error' => [
-        'errorLevel' => E_ALL,
+        'errorLevel' =>  E_ALL & ~E_USER_DEPRECATED,
         'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
         'skipLog' => [],
         'log' => true,
@@ -200,7 +202,7 @@ return [
             /*
              * The following keys are used in SMTP transports:
              */
-            'host' => 'mail.stage123.ca',
+            'host' => 'localhost',
             'port' => 25,
             'timeout' => 30,
             'username' => null,
@@ -209,6 +211,21 @@ return [
             'tls' => null,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
+        'smtp' => [
+            'host' => 'ssl://mail.stage123.ca',
+            'port' => 465,
+            'username' => 'info@stage123.ca',
+            'password' => 'Stage123',
+            'className' => 'Smtp',
+            'log' => true,
+            'context' => [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                ]
+            ]
+        ]
     ],
 
     /**
@@ -222,8 +239,8 @@ return [
      */
     'Email' => [
         'default' => [
-            'transport' => 'default',
-            'from' => 'you@localhost',
+            'transport' => 'smtp',
+            'from' => 'info@stage123.ca',
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
         ],
@@ -297,9 +314,9 @@ return [
             'persistent' => false,
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'root',
-            'password' => '',
-            'database' => ROOT . DS . 'db' . DS . 'tests.db',
+            //'username' => 'root',
+            //'password' => '',
+            'database' => ROOT . DS . 'bd' . DS . 'tests.sqlite',
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
