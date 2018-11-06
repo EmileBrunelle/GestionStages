@@ -45,11 +45,10 @@
         <h4><?= __('Email address') ?></h4>
         <?= $this->Text->autoParagraph(h($employer->email)); ?>
     </div>
-    <?= $this->Form->create($internship, ['url' => ['action' => 'edit']]) ?>
+    <?= $this->Form->create($internship, ['url' => ['action' => 'application']]) ?>
     <fieldset>
         <?php
         echo $this->Form->hidden('id');
-        echo $this->Form->hidden('student_id', ['options' => $student]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit your application')) ?>

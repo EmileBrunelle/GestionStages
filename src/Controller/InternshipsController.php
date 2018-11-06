@@ -5,6 +5,7 @@ use App\Controller\AppController;
 
 use App\Model\Table\InternshipEnvironmentsTable;
 use App\Model\Entity\InternshipEnvironment;
+use Cake\ORM\TableRegistry;
 
 /**
  * Internships Controller
@@ -103,6 +104,12 @@ class InternshipsController extends AppController
                 return $employer->id_user === $user['id'];
             }
         }
+
+        if (in_array($action, ['application'])) {
+            if (isset($user['role']) && $user['role'] === 'student') {
+                return true;
+            }
+        }
     }
 
     /**
@@ -136,17 +143,13 @@ class InternshipsController extends AppController
             'contain' => ['InternshipEnvironments', 'Students']
         ]);
 
-        $user = $this->Auth->user();
-
-        $student = $this->Internships->students->findByUserId($user['id']);
-
         $this->set('internship', $internship);
 
         $eid = $internship->internship_environment->get('employer_id');
 
         $employer = $this->Internships->InternshipEnvironments->Employers->findById($eid)->first();
 
-        $this->set(compact('employer', 'student'));
+        $this->set(compact('employer'));
     }
 
     /**
@@ -245,6 +248,25 @@ class InternshipsController extends AppController
         } else {
             $this->Flash->error(__('The internship could not be deleted. Please, try again.'));
         }
+
+        return $this->redirect(['action' => 'index']);
+    }
+
+    public function application($id = null)
+    {
+        $user = $this->Auth->user();
+        $student = $this->Internships->students->findByIdUser($user['id'])->first();
+        $data = [
+            'id' => $id,
+            'students' => [['student' => $student]]
+        ];
+
+        $internships = TableRegistry::get('Internships');
+        $internship = $internships->newEntity($data, [
+            'associated' => ['Students']
+        ]);
+
+        $internships->save($internship);
 
         return $this->redirect(['action' => 'index']);
     }
