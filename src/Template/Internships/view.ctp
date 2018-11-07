@@ -46,6 +46,12 @@
         <?= $this->Text->autoParagraph(h($employer->email)); ?>
     </div>
 
+    <?php
+        $loguser = $this->request->getSession()->read('Auth.User');
+        $roleuser = $loguser['role'];
+    ?>
+    
+    <?php if ($roleuser === 'student') { ?>
     <div class="row">
         <?= $this->Form->create($internship, ['url' => ['action' => 'application']]) ?>
         <fieldset>
@@ -56,4 +62,5 @@
         <?= $this->Form->button(__('Submit your application')) ?>
         <?= $this->Form->end() ?>
     </div>
+    <?php } ?>
 </div>

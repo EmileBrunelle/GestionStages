@@ -264,10 +264,19 @@ class InternshipsController extends AppController
             'student_id' => $student['id']
         ];
 
+        if ($data['student_id'] == null){
+            $this->Flash->error(__('An error occured when applying to this internship.'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         $internship_student = $internships_students->newEntity();
         $internship_student = $internships_students->patchEntity($internship_student, $data);
 
-        $internships_students->save($internship_student);
+        if ($internships_students->save($internship_student)){
+            $this->Flash->success(__('You have succesfully applied on this internship.'));
+        } else {
+            $this->Flash->error(__('An error occured when applying to this internship.'));
+        }
 
         return $this->redirect(['action' => 'index']);
     }
