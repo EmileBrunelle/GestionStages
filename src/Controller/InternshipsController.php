@@ -256,17 +256,18 @@ class InternshipsController extends AppController
     {
         $user = $this->Auth->user();
         $student = $this->Internships->students->findByIdUser($user['id'])->first();
+
+        $internships_students = TableRegistry::get('Internships_Students');
+
         $data = [
-            'id' => $id,
-            'students' => [['student' => $student]]
+            'internship_id' => $id,
+            'student_id' => $student['id']
         ];
 
-        $internships = TableRegistry::get('Internships');
-        $internship = $internships->newEntity($data, [
-            'associated' => ['Students']
-        ]);
+        $internship_student = $internships_students->newEntity();
+        $internship_student = $internships_students->patchEntity($internship_student, $data);
 
-        $internships->save($internship);
+        $internships_students->save($internship_student);
 
         return $this->redirect(['action' => 'index']);
     }
