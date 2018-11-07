@@ -2,6 +2,7 @@
 namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Mailer\Email;
+use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 
 class EmailsController extends AppController{
@@ -9,7 +10,7 @@ class EmailsController extends AppController{
     public function isAuthorized($user)
     {
         $action = $this->request->getParam('action');
-        if (in_array($action, ['notifyAll'])) {
+        if (in_array($action, ['notifyAll', 'updateRequest'])) {
              return true;
         }
     }
@@ -43,5 +44,6 @@ class EmailsController extends AppController{
 
         return $this->redirect(['controller' => 'internships', 'action' => 'index']);
     }
+
 }
 ?>

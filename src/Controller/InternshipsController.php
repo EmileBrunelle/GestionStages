@@ -280,4 +280,7 @@ class InternshipsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+
+
 }
