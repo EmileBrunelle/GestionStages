@@ -84,13 +84,14 @@ class EmailsController extends AppController{
         //Création du titre du message envoyé par courriel:
         $titre = 'Stage 123.ca - Un employeur veut vous rencontrer';
 
-        //Création du message envoyé par courriel:
-        $message = 'Un employeur veut vous rencontrer';
+        $employer = TableRegistry::get('Employers')->findById($eid)->first();
+        $student = TableRegistry::get('Students')->findById($sid)->first();
 
-        $employer = $employers->findById($eid)->first();
+        //Création du message envoyé par courriel:
+        $message = 'L\'employeur ' . $employer->first_name . ' ' . $employer->last_name . ' veut vous rencontrer. Téléphone pour le rejoindre: ' . $employer->phone;
 
         $email = new Email();
-        $emailaddress = $employer->email;
+        $emailaddress = $student->email;
 
         if ($emailaddress) {
             $email->setTo($emailaddress)->setSubject($titre)->send($message);
