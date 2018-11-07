@@ -21,7 +21,7 @@ class CustomerTypesFixture extends TestFixture
         'types' => ['type' => 'string', 'length' => null, 'null' => true, 'default' => null, 'precision' => null, 'comment' => null, 'fixed' => null, 'collate' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'sqlite_autoindex_customer_types_1' => ['type' => 'unique', 'columns' => ['id'], 'length' => []],
+            'types_type_index' => ['type' => 'unique', 'columns' => ['types'], 'length' => []],
         ],
     ];
     // @codingStandardsIgnoreEnd

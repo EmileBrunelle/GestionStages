@@ -1,30 +1,46 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ebrun
- * Date: 2018-11-07
- * Time: 12:21
- */
-
 namespace App\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
+/**
+ * RefEnvironmentCustomertypesFixture
+ *
+ */
 class RefEnvironmentCustomertypesFixture extends TestFixture
 {
+
     /**
      * Fields
      *
      * @var array
      */
+    // @codingStandardsIgnoreStart
     public $fields = [
-        'environment_id' => ['type' => 'integer', 'null' => false],
-        'customertype_id' => ['type' => 'integer', 'null' => false],
+        'environment_id' => ['autoIncrement' => null, 'type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'precision' => null, 'comment' => null],
+        'customertype_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'precision' => null, 'comment' => null, 'autoIncrement' => null],
         '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['environment_id', 'customertype_id']],
-            'environment_internship' => ['type' => 'foreign', 'columns' => ['environment_id'], 'references' => ['internship_environments', 'id'], 'update' => 'restrict', 'delete' => 'restrict'],
-            'environment_customer' => ['type' => 'foreign', 'columns' => ['customertype_id'], 'references' => ['customer_types', 'id'], 'update' => 'cascade', 'delete' => 'cascade']
-        ]
+            'primary' => ['type' => 'primary', 'columns' => ['environment_id', 'customertype_id'], 'length' => []],
+            'sqlite_autoindex_ref_environment_customertypes_1' => ['type' => 'unique', 'columns' => ['environment_id', 'customertype_id'], 'length' => []],
+            'customertype_id_fk' => ['type' => 'foreign', 'columns' => ['customertype_id'], 'references' => ['customer_types', null], 'update' => 'cascade', 'delete' => 'cascade', 'length' => []],
+            'environment_id_fk' => ['type' => 'foreign', 'columns' => ['environment_id'], 'references' => ['internship_environments', null], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
+        ],
     ];
+    // @codingStandardsIgnoreEnd
 
+    /**
+     * Init method
+     *
+     * @return void
+     */
+    public function init()
+    {
+        $this->records = [
+            [
+                'environment_id' => 1,
+                'customertype_id' => 1
+            ],
+        ];
+        parent::init();
+    }
 }
