@@ -16,8 +16,8 @@ class RefEnvironmentMissionsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.ref_environment_missions',
-        'app.internship_environments',
+        //'app.ref_environment_missions',
+        //'app.internship_environments',
         'app.environment_missions'
     ];
 
