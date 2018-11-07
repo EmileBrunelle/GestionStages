@@ -28,4 +28,4 @@ if(PHP_SAPI == "cli" && $argc == 2) {
 else {
     exit;
 }
-?> 
+?>
