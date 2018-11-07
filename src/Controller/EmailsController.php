@@ -10,7 +10,7 @@ class EmailsController extends AppController{
     public function isAuthorized($user)
     {
         $action = $this->request->getParam('action');
-        if (in_array($action, ['notifyAll', 'updateRequest'])) {
+        if (in_array($action, ['notifyAll', 'updateRequest', 'notifyEmployer', 'notifyStudent'])) {
              return true;
         }
     }
@@ -73,6 +73,34 @@ class EmailsController extends AppController{
 
         return $this->redirect(['controller' => 'internships', 'action' => 'index']);
     }
+
+    public function notifyStudent() {
+        //Identifiant de l'employeur et du stage en URL
+        $eid = $this->request->getQuery('eid');
+        $sid = $this->request->getQuery('sid');
+
+        //Obtenir les adresses emails de tous les employeurs en Query
+        $employers = TableRegistry::get('Employers')->find();
+        $students = TableRegistry::get('Students')->find();
+
+        //Création du titre du message envoyé par courriel:
+        $titre = 'Stage 123.ca - Un employeur veut vous rencontrer';
+
+        //Création du message envoyé par courriel:
+        $message = 'Un employeur veut vous rencontrer';
+
+        $employer = $employers->findById($eid)->first();
+
+        $email = new Email();
+        $emailaddress = $employer->email;
+
+        if ($emailaddress) {
+            $email->setTo($emailaddress)->setSubject($titre)->send($message);
+        }
+
+        return $this->redirect(['controller' => 'internships', 'action' => 'index']);
+    }
+
 
 }
 ?>
