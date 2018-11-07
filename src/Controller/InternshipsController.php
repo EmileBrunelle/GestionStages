@@ -278,7 +278,17 @@ class InternshipsController extends AppController
             $this->Flash->error(__('An error occured when applying to this internship.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        $id = $this->request->getParam('pass.0');
+
+        if (!$id) {
+            return false;
+        }
+
+        $internship = $this->Internships->findById($id)->first();
+        $internshipEnvironment = $this->Internships->InternshipEnvironments->findById($internship['environment_id'])->first();
+        $employer = $this->Internships->InternshipEnvironments->Employers->findById($internshipEnvironment['employer_id'])->first();
+
+        return $this->redirect(['controller' => 'emails', 'action' => 'notifyEmployer', '?' => ['eid' => $employer['id'], 'iid' => $internship['id']]]);
     }
 
 
