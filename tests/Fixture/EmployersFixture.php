@@ -67,8 +67,8 @@ class EmployersFixture extends TestFixture
                 'extension' => '4224',
                 'cellphone' => '5148765432',
                 'fax' => '4505959595',
-                'created' => '2018-09-19 20:29:49',
-                'modified' => '2018-09-19 20:29:49'
+                'created' => null,
+                'modified' => null
             ],
 
             [
@@ -88,8 +88,8 @@ class EmployersFixture extends TestFixture
                 'extension' => '4855',
                 'cellphone' => '4387569856',
                 'fax' => '4502516799',
-                'created' => '2018-09-19 20:29:49',
-                'modified' => '2018-09-19 20:29:49'
+                'created' => null,
+                'modified' => null
             ],
         ];
         parent::init();

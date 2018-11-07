@@ -62,8 +62,8 @@ class EmployersTableTest extends TestCase
                 'extension' => '4224',
                 'cellphone' => '5148765432',
                 'fax' => '4505959595',
-                'created' => '2018-09-19 20:29:49',
-                'modified' => '2018-09-19 20:29:49'
+                'created' => null,
+                'modified' => null
             ],
         ];
 
