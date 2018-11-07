@@ -16,8 +16,8 @@ class RefEnvironmentCustomertypesControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        //'app.ref_environment_customertypes', // TODO réparer les fixtures qui font planter les tests unitaires lorsque décommentés
-        //'app.internship_environments',
+        'app.ref_environment_customertypes',
+        'app.internship_environments',
         'app.customer_types'
     ];
 
