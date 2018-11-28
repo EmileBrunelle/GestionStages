@@ -80,4 +80,22 @@ class UsersTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    public function testFindById() {
+        $query = $this->Users->findById('1');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $result = $query->hydrate(false)->toArray();
+        $expected = [
+            [
+                'id' => 1,
+                'username' => 'louisbouchard',
+                'password' => 'louis123$',
+                'role' => 'employer',
+                'created' => '2018-09-19 18:43:23',
+                'modified' => '2018-09-19 18:43:23'
+            ]
+        ];
+
+        $this->assertEquals($expected, $result);
+    }
 }
