@@ -20,6 +20,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\Internship[] $Internships
+ * @property \App\Model\Entity\File[] $files
  */
 class Student extends Entity
 {
@@ -45,6 +46,7 @@ class Student extends Entity
         'active' => true,
         'created' => true,
         'modified' => true,
-        'internships' => true
+        'internships' => true,
+        'files' => true
     ];
 }

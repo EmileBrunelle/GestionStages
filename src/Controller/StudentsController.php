@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Mailer\Email;
+use Cake\ORM\TableRegistry;
 
 /**
  * Students Controller
@@ -151,6 +152,8 @@ class StudentsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $files = $this->addFiles();
+            // TODO : Trouver comment sauvegarder dans l'objet étudiant.
             $student = $this->Students->patchEntity($student, $this->request->getData());
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
@@ -193,4 +196,32 @@ class StudentsController extends AppController
             ->message(__('We looked at your candidacy and were interested in meeting you. If you are interested as well, please reply to this email and we\'ll arrange a meeting.'))
             ->send();
     }
+
+    private function addFiles() {
+        $this->Files = TableRegistry::getTableLocator()->get('Files');
+        $file = $this->Files->newEntity();
+        if (!empty($this->request->data['files']['name'])) {
+            $fileName = $this->request->data['files']['name'];
+            $uploadPath = 'Students/';
+            $uploadFile = $uploadPath . $fileName;
+            if (move_uploaded_file($this->request->data['files']['tmp_name'], 'img/' . $uploadFile)) {
+                $file = $this->Files->patchEntity($file, $this->request->getData());
+                $file->name = $fileName;
+                $file->path = $uploadPath;
+                //debug($file);
+                //die();
+                if ($this->Files->save($file)) {
+                    $this->Flash->success(__('File has been uploaded and inserted successfully.'));
+                    return $file;
+                } else {
+                    $this->Flash->error(__('Unable to upload file, please try again.'));
+                }
+            } else {
+                $this->Flash->error(__('Unable to upload file, please try again.'));
+            }
+        } else {
+            $this->Flash->error(__('Please choose a file to upload.'));
+        }
+    }
+
 }

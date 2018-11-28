@@ -17,7 +17,7 @@
     </ul>
 </nav>
 <div class="students form large-9 medium-8 columns content">
-    <?= $this->Form->create($student) ?>
+    <?= $this->Form->create($student, ['type' => 'file']) ?>
     <fieldset>
         <legend><?= __('Edit Student') ?></legend>
         <?php
@@ -30,6 +30,7 @@
             echo $this->Form->control('additional_info');
             echo $this->Form->control('note');
             echo $this->Form->control('active');
+            echo $this->Form->control('files', ['type' => 'file']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
