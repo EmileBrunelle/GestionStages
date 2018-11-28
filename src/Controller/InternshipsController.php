@@ -121,9 +121,23 @@ class InternshipsController extends AppController
     {
         $roleuser = $this->Auth->user('role');
 
-        $this->paginate = [
-            'contain' => ['InternshipEnvironments']
-        ];
+        if($roleuser === 'employer') {
+            $user_id = $this->Auth->user('id');
+            $this->Employers = TableRegistry::getTableLocator()->get('Employers');
+
+            $employer = $this->Employers->findByIdUser($user_id)->first();
+            $employer_id = $employer['id'];
+
+            $this->paginate = [
+                'conditions' => ['InternshipEnvironments.employer_id IN' => $employer_id],
+                'contain' => ['InternshipEnvironments']
+            ];
+        } else {
+            $this->paginate = [
+                'contain' => ['InternshipEnvironments']
+            ];
+        }
+
         $internships = $this->paginate($this->Internships);
 
 
