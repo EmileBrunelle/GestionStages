@@ -22,11 +22,6 @@
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('additional_info') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('note') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('active') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -40,16 +35,11 @@
                 <td><?= h($student->first_name) ?></td>
                 <td><?= h($student->phone) ?></td>
                 <td><?= h($student->email) ?></td>
-                <td><?= h($student->additional_info) ?></td>
-                <td><?= h($student->note) ?></td>
-                <td><?= $this->Number->format($student->active) ?></td>
-                <td><?= h($student->created) ?></td>
-                <td><?= h($student->modified) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $student->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $student->id], ['confirm' => __('Are you sure you want to delete # {0}?', $student->id)]) ?>
-                    <?= $this->Html->postLink(__('Send Email'), ['action' => 'sendEmail', $student->id], ['confirm' => __('Are you sure you want to send an email to # {0} {1}?', $student->first_name, $student->last_name)]) ?>
+                    <?= $this->Html->link(__('Upload file'), ['action' => 'uploadFile', $student->id]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

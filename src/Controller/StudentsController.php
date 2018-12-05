@@ -58,7 +58,7 @@ class StudentsController extends AppController
             }
         }
 
-        if (in_array($action, ['edit'])) {
+        if (in_array($action, ['edit', 'uploadFile'])) {
             if (isset($user['role']) && $user['role'] === 'admin') {
                 return true;
             }
@@ -110,7 +110,7 @@ class StudentsController extends AppController
     public function view($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => []
+            'contain' => ['files']
         ]);
 
         $this->set('student', $student);
@@ -152,8 +152,6 @@ class StudentsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $files = $this->addFiles();
-            // TODO : Trouver comment sauvegarder dans l'objet étudiant.
             $student = $this->Students->patchEntity($student, $this->request->getData());
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
@@ -161,6 +159,23 @@ class StudentsController extends AppController
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
+        }
+        $this->set(compact('student'));
+    }
+
+    public function uploadFile($id = null)
+    {
+        $this->Students->FilesStudents = TableRegistry::getTableLocator()->get('FilesStudents');
+        $student = $this->Students->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $student = $this->Students->patchEntity($student, $this->request->getData());
+            if ($file = $this->addFile()) {
+                $this->request->is('post');
+                $file->_joinData = $this->Students->FilesStudents->newEntity();
+                $this->Students->Files->link($student, [$file]);
+            }
         }
         $this->set(compact('student'));
     }
@@ -197,30 +212,33 @@ class StudentsController extends AppController
             ->send();
     }
 
-    private function addFiles() {
-        $this->Files = TableRegistry::getTableLocator()->get('Files');
-        $file = $this->Files->newEntity();
-        if (!empty($this->request->data['files']['name'])) {
-            $fileName = $this->request->data['files']['name'];
-            $uploadPath = 'Students/';
-            $uploadFile = $uploadPath . $fileName;
-            if (move_uploaded_file($this->request->data['files']['tmp_name'], 'img/' . $uploadFile)) {
-                $file = $this->Files->patchEntity($file, $this->request->getData());
-                $file->name = $fileName;
-                $file->path = $uploadPath;
-                //debug($file);
-                //die();
-                if ($this->Files->save($file)) {
-                    $this->Flash->success(__('File has been uploaded and inserted successfully.'));
-                    return $file;
+    private function addFile() {
+        $type = explode(".", $this->request->data['file']['name'])[1];
+        if ($this->request->data['file']['type'] == 'application/pdf' || $type == 'docx') {
+            $this->Files = TableRegistry::getTableLocator()->get('Files');
+            $file = $this->Files->newEntity();
+            if (!empty($this->request->data['file']['name'])) {
+                $fileName = $this->request->data['file']['name'];
+                $uploadPath = 'Students/';
+                $uploadFile = $uploadPath . $fileName;
+                if (move_uploaded_file($this->request->data['file']['tmp_name'], 'img/' . $uploadFile)) {
+                    $file = $this->Files->patchEntity($file, $this->request->getData());
+                    $file->name = $fileName;
+                    $file->path = $uploadPath;
+                    if ($this->Files->save($file)) {
+                        $this->Flash->success(__('File has been uploaded and inserted successfully.'));
+                        return $file;
+                    } else {
+                        $this->Flash->error(__('Unable to upload file, please try again.'));
+                    }
                 } else {
                     $this->Flash->error(__('Unable to upload file, please try again.'));
                 }
             } else {
-                $this->Flash->error(__('Unable to upload file, please try again.'));
+                $this->Flash->error(__('Please choose a file to upload.'));
             }
         } else {
-            $this->Flash->error(__('Please choose a file to upload.'));
+            $this->Flash->error(__('The file must be a PDF or a DOCX.'));
         }
     }
 

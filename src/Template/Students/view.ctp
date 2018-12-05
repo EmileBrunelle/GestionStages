@@ -65,4 +65,26 @@
             <td><?= h($student->modified) ?></td>
         </tr>
     </table>
+    <div class="related">
+        <h4><?= __('Related Files') ?></h4>
+        <?php if (!empty($student->files)): ?>
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <th scope="col"><?= __('Files') ?></th>
+                </tr>
+                <?php foreach ($student->files as $files): ?>
+                    <tr>
+                        <td>
+                            <?php
+                            echo $this->Html->link($files->name,
+                                DS . 'webroot' . DS . 'img' . DS . $files->path . $files->name, [
+                                    "alt" => $files->name,
+                                ]);
+                            ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php endif; ?>
+    </div>
 </div>

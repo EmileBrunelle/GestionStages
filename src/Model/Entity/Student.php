@@ -47,6 +47,6 @@ class Student extends Entity
         'created' => true,
         'modified' => true,
         'internships' => true,
-        'files' => true
+        'files' => false
     ];
 }
