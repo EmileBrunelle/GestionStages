@@ -214,6 +214,7 @@ class UsersController extends AppController
                 if ($this->Users->updateAll(['passkey' => $passkey, 'timeout' => $timeout], ['id' => $usager->id_user])){
                     $this->sendResetEmail($url, $usager);
                     $this->redirect(['action' => 'login']);
+                    $this->Flash->success('An Email as been sent');
                 } else {
                     $this->Flash->error('Error saving reset passkey/timeout');
                 }
@@ -236,7 +237,7 @@ class UsersController extends AppController
 
     public function reset($passkey = null) {
         if ($passkey) {
-            $query = $this->Users->find('all', ['conditions' => ['passkey' => $passkey]]);
+            $query = $this->Users->find('all', ['conditions' => ['passkey' => $passkey, 'timeout >' => time()]]);
             $user = $query->first();
             if ($user) {
                 if ($this->request->is(['patch', 'post', 'put'])) {
