@@ -30,18 +30,7 @@ class InternshipsController extends AppController
             }
 
             if (isset($user['role']) && $user['role'] === 'employer') {
-                $roleuser = $this->Auth->user('role');
-                $iduser = $this->Auth->user('id');
-
-                if ($roleuser === 'employer'){
-                    $internship = $this->Internships->findById($iduser)->first();
-                    $internshipEnvironment = $this->Internships->InternshipEnvironments->findById($internship['environment_id'])->first();
-                    $employer = $this->Internships->InternshipEnvironments->Employers->findById($internshipEnvironment['employer_id'])->first();
-
-                    if ($employer != null){
-                        return true;
-                    }
-                }
+                return true;
             }
         }
 
