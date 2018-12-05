@@ -10,6 +10,7 @@ use App\Model\Entity\Employer;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Mailer\Email;
+use Cake\I18n\Time;
 
 
 /**
@@ -237,8 +238,19 @@ class InternshipEnvironmentsController extends AppController
         $internshipEnvironment = $this->InternshipEnvironments->get($id, [
             'contain' => []
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $internshipEnvironment = $this->InternshipEnvironments->patchEntity($internshipEnvironment, $this->request->getData());
+
+
+            if ($this->Auth->user('role') == 'admin' || $this->Auth->user('role') == 'coordinator'){
+                $internshipEnvironment['must_update'] = 1;
+            }
+
+            if ($this->Auth->user('role') == 'employer'){
+                $internshipEnvironment['must_update'] = 0;
+            }
+
             if ($this->InternshipEnvironments->save($internshipEnvironment)) {
                 $this->Flash->success(__('The internship environment has been saved.'));
 
@@ -272,7 +284,7 @@ class InternshipEnvironmentsController extends AppController
 
     //fonction Cron
     public function updateRequest(){
-        $cron = $this->InternshipEnvironments->find('all', ['conditions'=>['InternshipEnvironments.must_update' => 1]]);
+        $cron = $this->InternshipEnvironments->find('all', ['conditions'=>['InternshipEnvironments.must_update' => 1], ['InternshipEnvironments.modified' => new DateTime('+15 days')]]);
 
         foreach ($cron as $key => $value) {
             //Création du lien envoyé par courriel:

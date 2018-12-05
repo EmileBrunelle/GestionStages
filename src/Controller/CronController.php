@@ -2,6 +2,8 @@
 namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Mailer\Email;
+use Cake\I18n\Time;
+
 /**
  * Cron Controller
  *
@@ -24,7 +26,7 @@ class CronController extends AppController
     }
     public function index()
     {
-        $cron = $this->Internship_Environments->find('all',['conditions'=>['must_update' => 1]]);
+        $cron = $this->Internship_Environments->find('all',['conditions'=>['must_update' => 1], ['InternshipEnvironments.modified' => new DateTime('+15 days')]]);
         foreach ($cron as $key => $value) {
             //Création du lien envoyé par courriel:
             $id = $value->id;
