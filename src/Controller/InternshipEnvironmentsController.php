@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Mailer\Email;
 use Cake\I18n\Time;
+use Cake\I18n\Date;
 
 
 /**
@@ -284,22 +285,26 @@ class InternshipEnvironmentsController extends AppController
 
     //fonction Cron
     public function updateRequest(){
-        $cron = $this->InternshipEnvironments->find('all', ['conditions'=>['InternshipEnvironments.must_update' => 1], ['InternshipEnvironments.modified' => new DateTime('+15 days')]]);
+        $cron = $this->InternshipEnvironments->find('all', ['conditions'=>['InternshipEnvironments.must_update' => 1]])->toArray();
+        $currentDate = new \DateTime();
 
         foreach ($cron as $key => $value) {
-            //Création du lien envoyé par courriel:
-            $id = $value->id;
-            $link = "http://". $_SERVER['HTTP_HOST'].$this->request->getAttribute("webroot")."internship-environments/edit/" . $id;
-            $empID = $value->employer_id;
+            if ($value['modified']->diff($currentDate)->days > 15){
+                    //Création du lien envoyé par courriel:
+                    $id = $value->id;
+                $link = "http://". $_SERVER['HTTP_HOST'].$this->request->getAttribute("webroot")."internship-environments/edit/" . $id;
+                $empID = $value->employer_id;
 
 
-            $emp = $this->InternshipEnvironments->Employers->findById($empID)->first();
-            $empEmail = $emp['email'];
+                $emp = $this->InternshipEnvironments->Employers->findById($empID)->first();
+                $empEmail = $emp['email'];
 
-            $email = new Email('default');
-            $email->setTo($empEmail)
-                ->setSubject('Avis de mise à jour d\'information de stage')
-                ->send('Votre environnemment de stage doit être mis-à-jour à ce lien: ' . $link);
+                $email = new Email('default');
+                $email->setTo($empEmail)
+                    ->setSubject('Avis de mise à jour d\'information de stage')
+                    ->send('Votre environnemment de stage doit être mis-à-jour à ce lien: ' . $link);
+            }
+
         }
 
         $this->autoRender = false;
