@@ -70,7 +70,7 @@
             <h4><?= __('Students who applied') ?></h4>
 
             <?php foreach ($internship->students as $internship_student): ?>
-                <?= h('• ' . $internship_student->first_name . ' '.  $internship_student->last_name) . ' - '?>
+                <?=  $this->Html->link('• ' . $internship_student->first_name . ' '.  $internship_student->last_name . ' - ', ['controller' => 'students', 'action' => 'view', $internship_student->id])?>
                 <?= $this->Html->link(__('Send email to notify'), ['controller' => 'emails', 'action' => 'notifyStudent', '?' =>['sid' => $internship_student->id, 'eid' => $employer->id]]) ?>
                 <br/>
             <?php endforeach; ?>

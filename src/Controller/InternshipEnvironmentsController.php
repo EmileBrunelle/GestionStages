@@ -289,7 +289,7 @@ class InternshipEnvironmentsController extends AppController
         $currentDate = new \DateTime();
 
         foreach ($cron as $key => $value) {
-            if ($value['modified']->diff($currentDate)->days > 15){
+            if ($value['modified']->diff($currentDate)->days > 3){
                     //Création du lien envoyé par courriel:
                     $id = $value->id;
                 $link = "http://". $_SERVER['HTTP_HOST'].$this->request->getAttribute("webroot")."internship-environments/edit/" . $id;
@@ -299,7 +299,7 @@ class InternshipEnvironmentsController extends AppController
                 $emp = $this->InternshipEnvironments->Employers->findById($empID)->first();
                 $empEmail = $emp['email'];
 
-                $email = new Email('default');
+                $email = new Email();
                 $email->setTo($empEmail)
                     ->setSubject('Avis de mise à jour d\'information de stage')
                     ->send('Votre environnemment de stage doit être mis-à-jour à ce lien: ' . $link);
