@@ -95,6 +95,16 @@ class StudentsController extends AppController
      */
     public function index()
     {
+        $iduser = $this->Auth->user('id');
+        $student = $this->Students->findByIdUser($iduser)->first();
+
+        $student_id = $student->get('id');
+
+        $this->paginate = [
+            'conditions' => ['Students.id IN' => $student_id]
+        ];
+
+
         $students = $this->paginate($this->Students);
 
         $this->set(compact('students'));

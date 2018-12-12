@@ -7,7 +7,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Student'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="students index large-9 medium-8 columns content">
@@ -15,8 +14,6 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('id_user') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('da') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
@@ -28,8 +25,6 @@
         <tbody>
             <?php foreach ($students as $student): ?>
             <tr>
-                <td><?= $this->Number->format($student->id) ?></td>
-                <td><?= $this->Number->format($student->id_user) ?></td>
                 <td><?= $this->Number->format($student->da) ?></td>
                 <td><?= h($student->last_name) ?></td>
                 <td><?= h($student->first_name) ?></td>
@@ -38,7 +33,6 @@
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $student->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $student->id], ['confirm' => __('Are you sure you want to delete # {0}?', $student->id)]) ?>
                     <?= $this->Html->link(__('Upload file'), ['action' => 'uploadFile', $student->id]) ?>
                 </td>
             </tr>

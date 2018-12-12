@@ -49,8 +49,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                     $loguser = $this->request->getSession()->read('Auth.User');
                     if ($loguser) {
                         $user = $loguser['username'];
+                        $role = $loguser['role'];
+                        if ($role === 'student') {
+                            echo '<li>';
+                            echo $this->Html->link($user, ['controller' => 'Students', 'action' => 'index']);
+                            echo '</li>';
+                        } else {
+                            echo '<li>';
+                            echo $this->Html->link($user, ['controller' => 'Users', 'action' => 'index']);
+                            echo '</li>';
+                        }
+
                         echo '<li>';
-                        echo $this->Html->link($user . ' - Logout', ['controller' => 'Users', 'action' => 'logout']);
+                        echo $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']);
                         echo '</li>';
                     } else {
                         echo '<li>';
